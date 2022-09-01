@@ -57,7 +57,7 @@ npm i vue2-audio-recorder --save
 | select-record         | Function | Callback fires after choise a record. Returns the record                 |
 | mode                  | String   | **[New]** A minimal interface to record just one audio and play it. Options: default/minimal. Default: default                                        |
 | countdown             | Boolean  | **[New]** Will show the time remaining instead of current recorded time. Options: true/false. Default: false                                          |
-
+| countdownTitle        | String   | **[New]** Title over time remaining when countdown is set to true. Default: "Time remaining"                                          |
 
 ## AudioPlayer props
 | Prop                  | Type     | Description                                                     |
@@ -108,7 +108,7 @@ npm install
 # serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification (must be with node 12 or 14)
+# build for production with minification (must be built with node v12.x)
 npm run build
 ```
 
@@ -117,7 +117,7 @@ npm run build
 - Clear record list
 - Responsive design
 
-## DEPLOY
+## PUBLISH TO NPM
 ```
 npm publish --access public
 ```

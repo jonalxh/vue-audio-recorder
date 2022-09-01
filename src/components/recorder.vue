@@ -213,6 +213,7 @@
       </div>
 
       <div class="ar-recorder__records-limit" v-if="attempts && !minimalMode">Attempts: {{attemptsLeft}}/{{attempts}}</div>
+      <div class="ar-recorder__records-limit" v-if="countdown">{{ countdownTitle }}</div>
       <div class="ar-recorder__duration">{{recordedTime}}</div>
       <div class="ar-recorder__time-limit" v-if="time && !minimalMode">Record duration is limited: {{time}}m</div>
 
@@ -281,7 +282,8 @@
       successfulUpload : { type: Function },
       selectRecord     : { type: Function },
       mode             : { type: String, default: 'minimal' },
-      countdown        : { type: Boolean, default: false}
+      countdown        : { type: Boolean, default: false},
+      countdownTitle   : { type: String, default: "Time remaining"}
     },
     data () {
       return {
@@ -394,7 +396,7 @@
         if (this.countdown) {
           return convertTimeMMSS(this.time - this.recorder.duration)
         }
-        
+
         return convertTimeMMSS(this.recorder.duration)
       },
       volume () {
