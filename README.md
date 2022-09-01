@@ -4,8 +4,8 @@
 
 #### [Live demo](https://jsfiddle.net/grishkovelli/rb1anxyj/)
 
-![](https://raw.githubusercontent.com/grishkovelli/vue-audio-recorder/master/screenshot.png)
-![](https://raw.githubusercontent.com/grishkovelli/vue-audio-recorder/master/minimal.png)
+![](https://raw.githubusercontent.com/jonalxh/vue-audio-recorder/master/screenshot.png)
+![](https://raw.githubusercontent.com/jonalxh/vue-audio-recorder/master/minimal.png)
 
 ### Features
 
@@ -104,7 +104,7 @@ npm install
 # serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
+# build for production with minification (must be with node 12 or 14)
 npm run build
 ```
 
@@ -113,6 +113,10 @@ npm run build
 - Clear record list
 - Responsive design
 
+## DEPLOY
+```
+npm publish --access public
+```
 ## Authors
 
 [Gennady Grishkovtsov](https://www.linkedin.com/in/grishkovtsov/) - Developer

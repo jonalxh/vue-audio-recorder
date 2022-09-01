@@ -1,8 +1,8 @@
 {
-  "name": "vue-audio-recorder",
-  "description": "Audio recorder for Vue.js. It allows to create, play, download and store records on a server",
-  "version": "3.0.1",
-  "author": "Gennady Grishkovtsov <grishkovelli@gmail.com>",
+  "name": "vue2-audio-recorder",
+  "description": "New version of audio recorder for Vue.js 2. It allows to record, play, download and store records on a remote server",
+  "version": "1.0.0",
+  "author": "Jonathan Arias <jonalxh@gmail.com>",
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --env.NODE_ENV=development --mode development --open --hot --https",
@@ -40,16 +40,22 @@
   "main": "dist/vue-audio-recorder.min.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/grishkovelli/vue-audio-recorder.git"
+    "url": "git+https://github.com/jonalxh/vue-audio-recorder.git"
   },
   "keywords": [
     "vue",
     "audio",
     "record",
-    "microphone"
+    "microphone",
+    "recorder",
+    "player",
+    "voice",
+    "grabador",
+    "reproductor",
+    "voz"
   ],
   "bugs": {
-    "url": "https://github.com/grishkovelli/vue-audio-recorder/issues"
+    "url": "https://github.com/jonalxh/vue-audio-recorder/issues"
   },
-  "homepage": "https://github.com/grishkovelli/vue-audio-recorder#readme"
+  "homepage": "https://github.com/jonalxh/vue-audio-recorder#readme"
 }
