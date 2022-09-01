@@ -65,15 +65,21 @@
       &__time-limit {
         position: absolute;
         color: #AEAEAE;
-        font-size: 12px;
+        font-size: 14px;
         top: 128px;
       }
 
       &__records-limit {
         position: absolute;
         color: #AEAEAE;
-        font-size: 13px;
-        top: 78px;
+        font-size: 14px;
+        top: 75px;
+      }
+      &__time-remaining-title {
+        position: absolute;
+        color: #AEAEAE;
+        font-size: 14px;
+        top: 68px;
       }
     }
 
