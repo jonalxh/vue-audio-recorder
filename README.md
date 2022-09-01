@@ -30,7 +30,7 @@
 ## Installation
 
 ```
-npm i vue-audio-recorder --save
+npm i vue2-audio-recorder --save
 ```
 
 ## AudioRecorder props
