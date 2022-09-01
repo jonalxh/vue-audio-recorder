@@ -4,11 +4,11 @@
 
 #### [Live demo](https://jsfiddle.net/grishkovelli/rb1anxyj/)
 
-Default mode
+#### Default mode
 ![](https://raw.githubusercontent.com/jonalxh/vue-audio-recorder/master/screenshot.png)
 
 
-Minimal mode
+#### Minimal mode
 ![](https://raw.githubusercontent.com/jonalxh/vue-audio-recorder/master/minimal.png)
 
 ### Features
