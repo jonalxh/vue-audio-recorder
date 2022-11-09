@@ -16,7 +16,7 @@
 
 <template>
   <div class="row">
-    <button type="button" class="toggle" @click="toggle">TOGGLE</button>
+    <button type="button" class="toggle" @click="toggle">Toggle recorder/player</button>
 
     <audio-recorder v-if="showRecorder"
       upload-url="some url"
@@ -32,7 +32,8 @@
       :before-upload="callback"
       :successful-upload="callback"
       :failed-upload="callback"
-      :bit-rate="192"/>
+      :bit-rate="192"
+      :mic-failed="showMicError"/>
 
     <audio-player :src="mp3" v-if="!showRecorder"/>
   </div>
@@ -56,6 +57,9 @@
       },
       toggle () {
         this.showRecorder = !this.showRecorder
+      },
+      showMicError(evt) {
+        alert(evt)
       }
     }
   }
