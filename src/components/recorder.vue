@@ -52,7 +52,7 @@
         color: #AEAEAE;
         font-size: 32px;
         font-weight: 500;
-        margin-top: 20px;
+        margin-top: 30px;
         margin-bottom: 16px;
       }
 
@@ -66,7 +66,7 @@
         position: absolute;
         color: #AEAEAE;
         font-size: 14px;
-        top: 128px;
+        top: 135px;
       }
 
       &__records-limit {
@@ -75,11 +75,11 @@
         font-size: 14px;
         top: 75px;
       }
-      &__time-remaining-title {
+      &__time-remaining {
         position: absolute;
         color: #AEAEAE;
         font-size: 14px;
-        top: 68px;
+        top: 90px;
       }
     }
 
@@ -219,9 +219,9 @@
       </div>
 
       <div class="ar-recorder__records-limit" v-if="attempts && !minimalMode">Attempts: {{attemptsLeft}}/{{attempts}}</div>
-      <div class="ar-recorder__records-limit" v-if="countdown">{{ countdownTitle }}</div>
+      <div class="ar-recorder__time-remaining" v-if="countdown">{{ countdownTitle }}</div>
       <div class="ar-recorder__duration">{{recordedTime}}</div>
-      <div class="ar-recorder__time-limit" v-if="time && !minimalMode">Record duration is limited: {{time}}m</div>
+      <div class="ar-recorder__time-limit" v-if="time && !minimalMode">Record duration is limited: {{time}}s</div>
 
       <div class="ar-records" v-if="!minimalMode">
         <div
@@ -287,7 +287,7 @@
       beforeUpload     : { type: Function },
       successfulUpload : { type: Function },
       selectRecord     : { type: Function },
-      mode             : { type: String, default: 'minimal' },
+      mode             : { type: String, default: 'default' }, // minimal or default
       countdown        : { type: Boolean, default: false},
       countdownTitle   : { type: String, default: "Time remaining"}
     },
