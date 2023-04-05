@@ -4,7 +4,6 @@ import { createVuePlugin } from "vite-plugin-vue2";
 import envCompatible from "vite-plugin-env-compatible";
 import { viteCommonjs } from "@originjs/vite-plugin-commonjs";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: [
@@ -28,10 +27,20 @@ export default defineConfig({
     cssCodeSplit: false,
     emptyOutDir: true,
     lib: {
-      entry: path.resolve(__dirname, "src/moduleIndex.js"),
+      entry: path.resolve(__dirname, "src/index.js"),
       name: "vuejs2-audio-recorder",
       fileName: "vuejs2-audio-recorder",
       formats: ["es", "cjs", "umd"],
+    },
+    rollupOptions: {
+      external: ["vue"],
+      output: {
+        // Provide global variables to use in the UMD build
+        // Add external deps here
+        globals: {
+          vue: "Vue",
+        },
+      },
     },
   },
 });
