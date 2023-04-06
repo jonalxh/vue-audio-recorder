@@ -39,6 +39,7 @@ export default {
     },
 
     onMouseMove(ev) {
+      if (ev.buttons == 0) return;
       const seekPos = calculateLineHeadPosition(ev, this.$refs[this.refId]);
       this.$emit("change-linehead", seekPos);
     },
@@ -56,7 +57,7 @@ export default {
   &__head {
     position: absolute;
     height: inherit;
-    background-color: #616161;
+    background-color: var(--primary-bg, #0f6cbd);
     border-radius: inherit;
   }
 }

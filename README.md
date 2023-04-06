@@ -7,11 +7,11 @@
 
 #### Default mode
 
-![](https://raw.githubusercontent.com/jonalxh/vue-audio-recorder/master/screenshot.png)
+![](https://raw.githubusercontent.com/rhosseinr/vue-audio-recorder/master/screenshot.png)
 
 #### Minimal mode
 
-![](https://raw.githubusercontent.com/jonalxh/vue-audio-recorder/master/minimal.png)
+![](https://raw.githubusercontent.com/rhosseinr/vue-audio-recorder/master/minimal.png)
 
 ### Features
 

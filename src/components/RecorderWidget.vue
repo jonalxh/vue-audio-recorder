@@ -61,7 +61,7 @@ export default {
     bitRate: { type: Number, default: 128 },
     sampleRate: { type: Number, default: 44100 },
     backendEndpoint: { type: String },
-    buttonColor: { type: String, default: "green" },
+    buttonColor: { type: String, default: "#0f6cbd" },
     compact: { type: Boolean, default: false },
     customPlayer: { type: Boolean, default: false },
     // callback functions

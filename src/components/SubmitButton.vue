@@ -1,6 +1,7 @@
 <template>
   <button
     @click="clickButton"
+    type="button"
     :style="{ 'background-color': color }"
     class="submit-button shadow-md"
   >
@@ -28,8 +29,9 @@ export default {
 .submit-button {
   display: flex;
   align-items: center;
-  padding: 0.5em;
+  padding: 0.75em;
   border: none;
   border-radius: 4px;
+  color: white;
 }
 </style>

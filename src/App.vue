@@ -33,7 +33,7 @@
             :failedUpload="failed"
             :afterRecording="afterRec"
             :backendEndpoint="backendEndpoint"
-            buttonColor="rgb(16, 185, 129)"
+            buttonColor="#0f6cbd"
             :customUpload="customUp"
             :customPlayer="customPlayer"
           />
@@ -46,7 +46,7 @@
             :failedUpload="failed"
             :afterRecording="afterRec"
             :backendEndpoint="backendEndpoint"
-            buttonColor="rgb(16, 185, 129)"
+            buttonColor="#0f6cbd"
             :customUpload="customUp"
             compact
           />
@@ -77,7 +77,7 @@ export default {
       countdown: false,
       customPlayer: false,
       limit: 20,
-      mp3: "/demo/example.mp3",
+      mp3: "https://download.samplelib.com/mp3/sample-15s.mp3",
       showRecorder: true,
       headers: {
         "X-Custom-Header": "some data",
