@@ -1,3 +1,4 @@
+import "./index.css";
 class Service {
   constructor(backendEndpoint) {
     this.backendEndpoint = backendEndpoint;

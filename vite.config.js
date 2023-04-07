@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import { createVuePlugin } from "vite-plugin-vue2";
 import envCompatible from "vite-plugin-env-compatible";
 import { viteCommonjs } from "@originjs/vite-plugin-commonjs";
+import { libInjectCss, scanEntries } from "vite-plugin-lib-inject-css";
 
 export default defineConfig({
   resolve: {
@@ -18,7 +19,7 @@ export default defineConfig({
     ],
     extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
   },
-  plugins: [createVuePlugin(), viteCommonjs(), envCompatible()],
+  plugins: [libInjectCss(), createVuePlugin(), viteCommonjs(), envCompatible()],
   server: {
     strictPort: false,
     https: false,
