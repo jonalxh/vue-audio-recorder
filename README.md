@@ -121,3 +121,7 @@ npm publish --access public
 
 [Jonathan Arias](https://github.com/jonalxh) - Developer
 [Hossein Rahimi](https://github.com/rhosseinr) - Developer
+
+## TNX
+
+[Thomas Derflinger](https://github.com/tderflinger/vue-audio-tapir) - Recorder for Vue3
