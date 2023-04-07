@@ -27,6 +27,7 @@ export default defineConfig({
   build: {
     cssCodeSplit: false,
     emptyOutDir: true,
+    minify: true,
     lib: {
       entry: path.resolve(__dirname, "src/index.js"),
       name: "vuejs2-audio-recorder",

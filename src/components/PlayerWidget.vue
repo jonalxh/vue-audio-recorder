@@ -59,7 +59,6 @@ export default {
   },
 
   props: {
-    src: { type: String },
     record: { type: Object },
     filename: { type: String },
     custom: { type: Boolean, default: false },
@@ -91,14 +90,14 @@ export default {
 
   computed: {
     disablePlayButton() {
-      return !this.src;
+      return !this.record;
     },
 
     audioSource() {
-      if (!this.src && this.record) {
+      if (this.record) {
         return this.record.url;
       }
-      return this.src;
+      return "";
     },
 
     playBtnIcon() {

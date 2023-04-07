@@ -62,11 +62,7 @@
       </div>
     </div>
 
-    <player-widget
-      :custom="customPlayer"
-      :src="recordedAudio"
-      :record="selected"
-    />
+    <player-widget :custom="customPlayer" :record="selected" />
 
     <div v-if="successMessage || errorMessage" class="recorder-message">
       <span v-if="successMessage" class="color-success">
@@ -125,8 +121,6 @@ export default {
   data() {
     return {
       recording: false,
-      recordedAudio: null,
-      recordedBlob: null,
       recorder: null,
       successMessage: null,
       errorMessage: null,
@@ -194,12 +188,10 @@ export default {
       const recorded = this.recorder.recordList();
       this.selected = recorded[0];
 
-      if (this.selected) {
+      if (this.selected && this.selected.url) {
         this.recordList.push(this.selected);
-        this.recordedAudio = this.selected.url;
-        this.recordedBlob = this.selected.blob;
 
-        if (this.recordedAudio) {
+        if (this.selected.url) {
           this.successMessage = SUCCESS_MESSAGE;
         }
 
@@ -212,15 +204,15 @@ export default {
     },
 
     async sendData() {
-      if (!this.recordedBlob) {
+      if (!this.selected) {
         return;
       }
 
       let result = null;
       if (this.customUpload) {
-        result = await this.customUpload(this.recordedBlob);
+        result = await this.customUpload(this.selected.blob);
       } else {
-        result = await this.service.postBackend(this.recordedBlob);
+        result = await this.service.postBackend(this.selected.blob);
       }
 
       if (result) {
@@ -259,7 +251,7 @@ export default {
     },
 
     download() {
-      if (!this.selected.url) {
+      if (this.selected && !this.selected.url) {
         return;
       }
 

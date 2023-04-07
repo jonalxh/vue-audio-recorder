@@ -417,7 +417,6 @@ const __vue2_script$1 = {
     VolumeControl
   },
   props: {
-    src: { type: String },
     record: { type: Object },
     filename: { type: String },
     custom: { type: Boolean, default: false }
@@ -443,13 +442,13 @@ const __vue2_script$1 = {
   },
   computed: {
     disablePlayButton() {
-      return !this.src;
+      return !this.record;
     },
     audioSource() {
-      if (!this.src && this.record) {
+      if (this.record) {
         return this.record.url;
       }
-      return this.src;
+      return "";
     },
     playBtnIcon() {
       return this.isPlaying ? "pause" : "play";
@@ -527,7 +526,7 @@ var render = function() {
     } } }, [_c("span", [_vm._v("Record " + _vm._s(idx + 1))]), _c("div", { staticClass: "list-actions" }, [record.id === _vm.selected.id && _vm.showDownloadButton ? _c("icon-button", { attrs: { "id": "download", "name": "download" }, on: { "click": _vm.download } }) : _vm._e(), record.id === _vm.selected.id && _vm.showUploadButton ? _c("icon-button", { staticClass: "submit-button", attrs: { "id": "upload", "name": "upload" }, on: { "click": _vm.sendData } }) : _vm._e(), record.id === _vm.selected.id ? _c("icon-button", { attrs: { "name": "remove" }, on: { "click": function($event) {
       return _vm.removeRecord(idx);
     } } }) : _vm._e()], 1), _c("div", { staticClass: "vue__text" }, [_vm._v(_vm._s(record.duration))])]);
-  }), 0) : _vm._e(), _c("player-widget", { attrs: { "custom": _vm.customPlayer, "src": _vm.recordedAudio, "record": _vm.selected } }), _vm.successMessage || _vm.errorMessage ? _c("div", { staticClass: "recorder-message" }, [_vm.successMessage ? _c("span", { staticClass: "color-success" }, [_vm._v(" " + _vm._s(_vm.successMessage) + " ")]) : _vm._e(), _vm.errorMessage ? _c("span", { staticClass: "color-danger" }, [_vm._v(" " + _vm._s(_vm.errorMessage) + " ")]) : _vm._e()]) : _vm._e()], 1);
+  }), 0) : _vm._e(), _c("player-widget", { attrs: { "custom": _vm.customPlayer, "record": _vm.selected } }), _vm.successMessage || _vm.errorMessage ? _c("div", { staticClass: "recorder-message" }, [_vm.successMessage ? _c("span", { staticClass: "color-success" }, [_vm._v(" " + _vm._s(_vm.successMessage) + " ")]) : _vm._e(), _vm.errorMessage ? _c("span", { staticClass: "color-danger" }, [_vm._v(" " + _vm._s(_vm.errorMessage) + " ")]) : _vm._e()]) : _vm._e()], 1);
 };
 var staticRenderFns = [];
 var RecorderWidget_vue_vue_type_style_index_0_lang = "";
@@ -563,8 +562,6 @@ const __vue2_script = {
   data() {
     return {
       recording: false,
-      recordedAudio: null,
-      recordedBlob: null,
       recorder: null,
       successMessage: null,
       errorMessage: null,
@@ -620,11 +617,9 @@ const __vue2_script = {
       this.recorder.stop();
       const recorded = this.recorder.recordList();
       this.selected = recorded[0];
-      if (this.selected) {
+      if (this.selected && this.selected.url) {
         this.recordList.push(this.selected);
-        this.recordedAudio = this.selected.url;
-        this.recordedBlob = this.selected.blob;
-        if (this.recordedAudio) {
+        if (this.selected.url) {
           this.successMessage = SUCCESS_MESSAGE;
         }
         if (this.afterRecording) {
@@ -635,14 +630,14 @@ const __vue2_script = {
       }
     },
     async sendData() {
-      if (!this.recordedBlob) {
+      if (!this.selected) {
         return;
       }
       let result = null;
       if (this.customUpload) {
-        result = await this.customUpload(this.recordedBlob);
+        result = await this.customUpload(this.selected.blob);
       } else {
-        result = await this.service.postBackend(this.recordedBlob);
+        result = await this.service.postBackend(this.selected.blob);
       }
       if (result) {
         this.errorMessage = null;
@@ -675,7 +670,7 @@ const __vue2_script = {
       this.selectRecord && this.selectRecord(record);
     },
     download() {
-      if (!this.selected.url) {
+      if (this.selected && !this.selected.url) {
         return;
       }
       const type = this.selected.blob.type.split("/")[1];
