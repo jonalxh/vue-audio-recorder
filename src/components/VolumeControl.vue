@@ -1,8 +1,8 @@
 <template>
-  <div class="ar-volume">
-    <icon-button class="ar-volume__icon" name="volume" />
+  <div class="player-volume">
+    <icon-button class="player-volume__icon" name="volume" />
     <line-control
-      class="ar-volume-bar"
+      class="player-volume-bar"
       ref-id="volume"
       :percentage="volume"
       @change-linehead="onChangeLinehead"
@@ -34,16 +34,17 @@ export default {
 </script>
 
 <style lang="scss">
-.ar-volume {
+.player-volume {
   display: flex;
   align-items: center;
   line-height: 10px;
 
   &-bar {
     width: 50px;
-    height: 6px;
     border-radius: 4px;
     position: relative;
+    width: 0;
+    overflow: hidden;
   }
 
   &__icon {
@@ -54,6 +55,12 @@ export default {
     padding: 0;
     background-color: unset;
     margin-right: 3px;
+  }
+
+  &:hover {
+    .player-volume-bar {
+      width: 50px;
+    }
   }
 }
 </style>

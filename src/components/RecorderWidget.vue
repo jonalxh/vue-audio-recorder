@@ -2,15 +2,73 @@
   <div class="recorder-container">
     <div class="recorder-action">
       <icon-button
-        :name="recording ? 'stop' : 'mic'"
+        class="vue-recorder-action"
+        :name="iconButtonType"
         @click="toggleRecording()"
       />
-      <span class="recorder-timer">{{ recordedTime }}</span>
+      <icon-button
+        v-if="!compact"
+        class="vue-recorder-stop"
+        name="stop"
+        @click="stopRecording()"
+      />
     </div>
-    <div class="recorder-message">
-      <span v-if="instructionMessage" class="color-primary">
-        {{ instructionMessage }}
-      </span>
+
+    <div class="timing">
+      <div class="time-attempt" v-if="attempts && !compact">
+        Attempts: {{ attemptsLeft }}/{{ attempts }}
+      </div>
+      <div class="recording-time">
+        <span v-if="countdown"> {{ countdownTitle }}</span>
+        <span class="recorder-timer">{{ recordedTime }}</span>
+      </div>
+      <div class="time-limit" v-if="time && !compact">
+        Record duration is limited: {{ time }}s
+      </div>
+    </div>
+
+    <div class="vue-records" v-if="!compact && recordList.length > 0">
+      <div
+        v-for="(record, idx) in recordList"
+        :key="record.id"
+        class="vue-records__record"
+        :class="{ 'vue-records__record--selected': record.id === selected.id }"
+        @click="choiceRecord(record)"
+      >
+        <span>Record {{ idx + 1 }}</span>
+        <div class="list-actions">
+          <icon-button
+            id="download"
+            v-if="record.id === selected.id && showDownloadButton"
+            name="download"
+            @click="download"
+          />
+
+          <icon-button
+            id="upload"
+            v-if="record.id === selected.id && showUploadButton"
+            class="submit-button"
+            name="upload"
+            @click="sendData"
+          />
+
+          <icon-button
+            v-if="record.id === selected.id"
+            name="remove"
+            @click="removeRecord(idx)"
+          />
+        </div>
+        <div class="vue__text">{{ record.duration }}</div>
+      </div>
+    </div>
+
+    <player-widget
+      :custom="customPlayer"
+      :src="recordedAudio"
+      :record="selected"
+    />
+
+    <div v-if="successMessage || errorMessage" class="recorder-message">
       <span v-if="successMessage" class="color-success">
         {{ successMessage }}
       </span>
@@ -18,14 +76,6 @@
         {{ errorMessage }}
       </span>
     </div>
-
-    <player-widget
-      v-if="!compact"
-      :custom="customPlayer"
-      :src="recordedAudio"
-      :record="recordedBlob"
-    />
-    <submit-button @submit="sendData" :color="buttonColor" />
   </div>
 </template>
 
@@ -34,11 +84,8 @@ import Service from "../api/Service";
 import Recorder from "../lib/Recorder";
 import { convertTimeMMSS } from "../lib/Utils";
 import IconButton from "./IconButton.vue";
-import SubmitButton from "./SubmitButton.vue";
 import PlayerWidget from "./PlayerWidget.vue";
 
-const INSTRUCTION_MESSAGE = "Click icon to start recording message.";
-const INSTRUCTION_MESSAGE_STOP = "Click icon again to stop recording.";
 const ERROR_MESSAGE =
   "Failed to use microphone. Please refresh and try again and permit the use of a microphone.";
 const SUCCESS_MESSAGE = "Successfully recorded message!";
@@ -52,23 +99,27 @@ export default {
 
   components: {
     IconButton,
-    SubmitButton,
     PlayerWidget,
   },
 
   props: {
-    time: { type: Number, default: 1 },
+    attempts: { type: Number },
+    time: { type: Number },
     bitRate: { type: Number, default: 128 },
     sampleRate: { type: Number, default: 44100 },
+    showDownloadButton: { type: Boolean, default: true },
+    showUploadButton: { type: Boolean, default: true },
+    beforeRecording: { type: Function },
+    pauseRecording: { type: Function },
+    afterRecording: { type: Function },
+    selectRecord: { type: Function },
     backendEndpoint: { type: String },
-    buttonColor: { type: String, default: "#0f6cbd" },
+    filename: { type: String, default: "audio" },
     compact: { type: Boolean, default: false },
     customPlayer: { type: Boolean, default: false },
-    // callback functions
-    afterRecording: { type: Function },
-    successfulUpload: { type: Function },
-    failedUpload: { type: Function },
     customUpload: { type: Function, default: null },
+    countdown: { type: Boolean, default: false },
+    countdownTitle: { type: String, default: "Time remaining" },
   },
 
   data() {
@@ -79,7 +130,9 @@ export default {
       recorder: null,
       successMessage: null,
       errorMessage: null,
-      instructionMessage: INSTRUCTION_MESSAGE,
+
+      recordList: [],
+      selected: {},
     };
   },
 
@@ -88,13 +141,29 @@ export default {
       if (this.time && this.recorder?.duration >= this.time * 60) {
         this.toggleRecording();
       }
+      if (this.countdown) {
+        return convertTimeMMSS(this.time - this.recorder?.duration);
+      }
+
       return convertTimeMMSS(this.recorder?.duration);
+    },
+
+    attemptsLeft() {
+      return this.attempts - this.recordList.length;
+    },
+
+    iconButtonType() {
+      return this.recording && this.compact
+        ? "stop"
+        : this.recording
+        ? "record"
+        : "mic";
     },
   },
 
   beforeUnmount() {
     if (this.recording) {
-      this.stopRecorder();
+      this.stopRecording();
     }
   },
 
@@ -117,18 +186,19 @@ export default {
       this.recorder.start();
       this.successMessage = null;
       this.errorMessage = null;
-      this.instructionMessage = INSTRUCTION_MESSAGE_STOP;
       this.service = new Service(this.backendEndpoint);
     },
 
     stopRecording() {
+      this.recording = false;
       this.recorder.stop();
-      const recordList = this.recorder.recordList();
-      this.recordedAudio = recordList[0].url;
-      this.recordedBlob = recordList[0].blob;
+      const recorded = this.recorder.recordList();
+      this.recordList.push(recorded[0]);
+      this.selected = recorded[0];
+      this.recordedAudio = recorded[0].url;
+      this.recordedBlob = recorded[0].blob;
       if (this.recordedAudio) {
         this.successMessage = SUCCESS_MESSAGE;
-        this.instructionMessage = null;
       }
       if (this.afterRecording) {
         this.afterRecording();
@@ -165,8 +235,33 @@ export default {
 
     micFailed() {
       this.recording = false;
-      this.instructionMessage = INSTRUCTION_MESSAGE;
       this.errorMessage = ERROR_MESSAGE;
+    },
+
+    removeRecord(idx) {
+      this.recordList.splice(idx, 1);
+      this.$set(this.selected, "url", null);
+      this.$emit("remove-record");
+    },
+
+    choiceRecord(record) {
+      if (this.selected === record) {
+        return;
+      }
+      this.selected = record;
+      this.selectRecord && this.selectRecord(record);
+    },
+
+    download() {
+      if (!this.selected.url) {
+        return;
+      }
+
+      const type = this.selected.blob.type.split("/")[1];
+      const link = document.createElement("a");
+      link.href = this.selected.url;
+      link.download = `${this.filename}.${type}`;
+      link.click();
     },
   },
 };
@@ -178,18 +273,28 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1em;
-  margin: 1em;
+  padding: 0.75em;
+  margin: 0.75em;
 }
 
 .recorder-action {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  .recorder-timer {
-    font-size: 0.9em;
+  .vue-recorder-action {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--primary-color, #0f6cbd);
+    font-size: 18px;
+  }
+
+  .vue-recorder-stop {
+    width: 32px;
+    height: 32px;
+    margin-left: 4px;
+    border: 1px solid var(--primary-color, #0f6cbd);
+    font-size: 12px;
   }
 }
 
@@ -211,6 +316,60 @@ export default {
     &.color-danger {
       background-color: #f4bfab;
     }
+  }
+}
+
+.vue-records {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  margin-top: 0.75em;
+
+  .list-actions {
+    display: flex;
+  }
+
+  .list-actions > .icon-button {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.vue-records__record {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  justify-content: space-between;
+  padding: 0.5em;
+  border-radius: 2em;
+
+  &--selected {
+    border: 1px solid rgba(100, 100, 100, 0.2);
+  }
+
+  .icon-button {
+    background-color: transparent;
+  }
+}
+
+.timing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .time-limit,
+  .time-attempt {
+    font-size: 0.75em;
+  }
+
+  .recorder-timer {
+    margin: 0 0.25em;
+  }
+
+  .recording-time {
+    text-transform: capitalize;
   }
 }
 </style>

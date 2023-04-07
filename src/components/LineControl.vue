@@ -1,6 +1,6 @@
 <template>
-  <div :ref="refId" class="ar-line-control" @mousedown="onMouseDown">
-    <div class="ar-line-control__head" :style="calculateSize" />
+  <div :ref="refId" class="player-line-control" @mousedown="onMouseDown">
+    <div class="player-line-control__head" :style="calculateSize" />
   </div>
 </template>
 
@@ -48,16 +48,20 @@ export default {
 </script>
 
 <style lang="scss">
-.ar-line-control {
+.player-line-control {
   position: relative;
-  height: 8px;
-  border-radius: 5px;
-  background-color: #e6e6e6;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #ddd;
+  transition: all 0.1s ease-in;
+  &:hover {
+    height: 8px;
+  }
 
   &__head {
     position: absolute;
     height: inherit;
-    background-color: var(--primary-bg, #0f6cbd);
+    background-color: var(--primary-color, #0f6cbd);
     border-radius: inherit;
   }
 }

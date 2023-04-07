@@ -1,38 +1,41 @@
 <template>
-  <div v-if="custom" class="vue-player">
-    <div class="vue-player-actions">
-      <icon-button
-        id="play"
-        class="ar-icon ar-icon__lg vue-player__play"
-        :name="playBtnIcon"
-        :class="{
-          'vue-player__play--active': isPlaying,
-          disabled: disablePlayButton,
-        }"
-        @click="playback"
-      />
-    </div>
+  <div class="recorder-player">
+    <div v-if="custom" class="vue-player">
+      <div class="vue-player-actions">
+        <icon-button
+          id="play"
+          class="ar-icon ar-icon__lg vue-player__play"
+          :name="playBtnIcon"
+          :class="{
+            'vue-player__play--active': isPlaying,
+            disabled: disablePlayButton,
+          }"
+          @click="playback"
+        />
+      </div>
 
-    <div class="vue-player-bar">
-      <div class="vue-player__time">{{ playedTime }}</div>
-      <line-control
-        class="vue-player__progress"
-        ref-id="progress"
-        :percentage="progress"
-        @change-linehead="_onUpdateProgress"
-      />
-      <div class="vue-player__time">{{ duration }}</div>
-      <volume-control
-        @change-volume="_onChangeVolume"
-        :class="{ disabled: disablePlayButton }"
-      />
+      <div class="vue-player-bar">
+        <div class="vue-player__time">{{ playedTime }} / {{ duration }}</div>
+        <line-control
+          class="vue-player__progress"
+          ref-id="progress"
+          :percentage="progress"
+          @change-linehead="_onUpdateProgress"
+        />
+        <volume-control
+          @change-volume="_onChangeVolume"
+          :class="{ disabled: disablePlayButton }"
+        />
+      </div>
     </div>
-
-    <audio :id="playerUniqId" :src="audioSource" type="audio/mpeg" />
-  </div>
-  <div v-else>
-    <figure class="recorder-player">
-      <audio controls :src="audioSource" type="audio/mpeg" class="mx-auto">
+    <figure v-show="!custom">
+      <audio
+        controls
+        :src="audioSource"
+        :id="playerUniqId"
+        type="audio/mpeg"
+        class="mx-auto"
+      >
         Your browser does not support the
         <code>audio</code> element.
       </audio>
@@ -72,21 +75,18 @@ export default {
   },
 
   mounted() {
-    const player = document.getElementById(this.playerUniqId);
+    this.player = document.getElementById(this.playerUniqId);
 
-    if (player) {
-      this.player = player;
-      this.player.addEventListener("ended", () => {
-        this.isPlaying = false;
-      });
+    this.player.addEventListener("ended", () => {
+      this.isPlaying = false;
+    });
 
-      this.player.addEventListener("loadeddata", (ev) => {
-        this._resetProgress();
-        this.duration = convertTimeMMSS(player.duration);
-      });
+    this.player.addEventListener("loadeddata", (ev) => {
+      this._resetProgress();
+      this.duration = convertTimeMMSS(this.player.duration);
+    });
 
-      this.player.addEventListener("timeupdate", this._onTimeUpdate);
-    }
+    this.player.addEventListener("timeupdate", this._onTimeUpdate);
   },
 
   computed: {
@@ -159,6 +159,15 @@ export default {
 </script>
 
 <style lang="scss">
+.recorder-player {
+  margin: 0.5em 0;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .vue-player {
   width: 100%;
   height: unset;
@@ -173,6 +182,7 @@ export default {
   border-radius: 10em;
   padding: 0.5em;
   box-sizing: border-box;
+  margin-top: 0.75em;
 
   & > .vue-player-bar {
     margin: 0 0 0 5px;
@@ -185,9 +195,7 @@ export default {
   &-bar {
     display: flex;
     align-items: center;
-    height: 38px;
-    padding: 0 12px;
-    margin: 0 5px;
+    height: 32px;
     flex: 1;
   }
 
@@ -200,14 +208,14 @@ export default {
   }
 
   &__progress {
-    width: 160px;
-    margin: 0 8px;
+    margin: 0 0.9em;
   }
 
   &__time {
+    white-space: nowrap;
     color: var(--text-color, #333);
-    font-size: 16px;
-    width: 41px;
+    font-size: 0.8em;
+    width: 80px;
   }
 
   &__play {
@@ -222,5 +230,9 @@ export default {
   pointer-events: none;
   cursor: not-allowed;
   user-select: none;
+}
+
+figure {
+  margin: 0;
 }
 </style>

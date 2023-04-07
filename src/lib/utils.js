@@ -1,6 +1,6 @@
 export function convertTimeMMSS(seconds) {
   if (!seconds) {
-    return null;
+    return "00:00";
   }
   return new Date(seconds * 1000).toISOString().substring(14, 19);
 }

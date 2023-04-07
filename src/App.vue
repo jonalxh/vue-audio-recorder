@@ -28,26 +28,28 @@
         <div>
           Default mode:
           <recorder-widget
-            :time="2"
+            :time="limit"
             :successfulUpload="success"
             :failedUpload="failed"
             :afterRecording="afterRec"
             :backendEndpoint="backendEndpoint"
-            buttonColor="#0f6cbd"
             :customUpload="customUp"
             :customPlayer="customPlayer"
+            :countdown="countdown"
+            :attempts="attempts"
           />
         </div>
         <div>
           Minimal mode:
           <recorder-widget
-            :time="2"
+            :time="limit"
             :successfulUpload="success"
             :failedUpload="failed"
             :afterRecording="afterRec"
             :backendEndpoint="backendEndpoint"
-            buttonColor="#0f6cbd"
             :customUpload="customUp"
+            :customPlayer="customPlayer"
+            :countdown="countdown"
             compact
           />
         </div>
@@ -128,19 +130,26 @@ export default {
 </script>
 
 <style lang="scss">
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .controls {
   display: flex;
   flex-direction: column;
   width: 50vw;
-  padding: 2em;
+  padding: 1em;
   margin: 0 auto;
-  margin-bottom: 2em;
+  margin-bottom: 0.75em;
   border-radius: 0.5em;
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
 
   input[type="checkbox"] {
-    margin-right: 1em;
-    margin-bottom: 1em;
+    margin-right: 0.75em;
+    margin-bottom: 0.75em;
   }
 
   input[type="number"] {
@@ -149,7 +158,7 @@ export default {
     padding: 0.3em;
     border-radius: 4px;
     border: 1px solid #ccc;
-    margin-bottom: 1em;
+    margin-bottom: 0.75em;
   }
 }
 
@@ -165,15 +174,15 @@ export default {
 
 .toggle {
   cursor: pointer;
-  margin: 20px;
-  border-radius: 50px;
-  padding: 5px 20px;
+  margin: 0.75em;
+  border-radius: 1em;
+  padding: 0.5em 1em;
   background-color: white;
   font-weight: bold;
-  border: 1px solid #05cbcd;
+  border: 1px solid var(--primary-color, #0f6cbd);
   color: #747474;
   &:hover {
-    background-color: #05cbcd;
+    background-color: var(--primary-color, #0f6cbd);
   }
 }
 </style>

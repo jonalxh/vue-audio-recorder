@@ -19,7 +19,7 @@ class Service {
 }
 function convertTimeMMSS(seconds) {
   if (!seconds) {
-    return null;
+    return "00:00";
   }
   return new Date(seconds * 1e3).toISOString().substring(14, 19);
 }
@@ -167,15 +167,15 @@ class Recorder {
     this.micFailed && this.micFailed(error);
   }
 }
-var render$5 = function() {
+var render$4 = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("button", { staticClass: "icon-button", attrs: { "type": "button" }, on: { "click": function($event) {
+  return _c("button", { staticClass: "icon-button", class: "icon-" + _vm.name, attrs: { "type": "button" }, on: { "click": function($event) {
     return _vm.onClick();
   } } }, [_c("span", { domProps: { "innerHTML": _vm._s(_vm.icons[_vm.name]) } })]);
 };
-var staticRenderFns$5 = [];
+var staticRenderFns$4 = [];
 var IconButton_vue_vue_type_style_index_0_lang = "";
 function normalizeComponent(scriptExports, render2, staticRenderFns2, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
   var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
@@ -231,7 +231,7 @@ function normalizeComponent(scriptExports, render2, staticRenderFns2, functional
     options
   };
 }
-const __vue2_script$5 = {
+const __vue2_script$4 = {
   props: {
     name: { type: String }
   },
@@ -239,59 +239,22 @@ const __vue2_script$5 = {
     return {
       icons: {
         download: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M3.5 13h9a.5.5 0 0 1 .09.992L12.5 14h-9a.5.5 0 0 1-.09-.992L3.5 13h9h-9ZM7.91 1.008L8 1a.5.5 0 0 1 .492.41l.008.09v8.792l2.682-2.681a.5.5 0 0 1 .638-.058l.07.058a.5.5 0 0 1 .057.638l-.058.069l-3.535 3.536a.5.5 0 0 1-.638.057l-.07-.057l-3.535-3.536a.5.5 0 0 1 .638-.765l.069.058L7.5 10.292V1.5a.5.5 0 0 1 .41-.492L8 1l-.09.008Z"/></svg>',
+        upload: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M3.5 2a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9Zm4.854 2.146a.5.5 0 0 0-.708 0l-3.5 3.5a.5.5 0 1 0 .708.708L7.5 5.707V13.5a.5.5 0 0 0 1 0V5.707l2.646 2.647a.5.5 0 0 0 .708-.708l-3.5-3.5Z"/></svg>',
         mic: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M5.5 4.5a2.5 2.5 0 0 1 5 0V8a2.5 2.5 0 0 1-5 0V4.5ZM8 3a1.5 1.5 0 0 0-1.5 1.5V8a1.5 1.5 0 1 0 3 0V4.5A1.5 1.5 0 0 0 8 3ZM4 7.5a.5.5 0 0 1 .5.5a3.5 3.5 0 1 0 7 0a.5.5 0 0 1 1 0a4.5 4.5 0 0 1-4 4.473V13.5a.5.5 0 0 1-1 0v-1.027A4.5 4.5 0 0 1 3.5 8a.5.5 0 0 1 .5-.5Z"/></svg>',
         pause: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M3.75 2A1.75 1.75 0 0 0 2 3.75v8.5c0 .966.784 1.75 1.75 1.75h1.5A1.75 1.75 0 0 0 7 12.25v-8.5A1.75 1.75 0 0 0 5.25 2h-1.5ZM3 3.75A.75.75 0 0 1 3.75 3h1.5a.75.75 0 0 1 .75.75v8.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-8.5ZM10.75 2A1.75 1.75 0 0 0 9 3.75v8.5c0 .966.784 1.75 1.75 1.75h1.5A1.75 1.75 0 0 0 14 12.25v-8.5A1.75 1.75 0 0 0 12.25 2h-1.5ZM10 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v8.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-8.5Z"/></svg>',
         play: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M5.745 3.064A.5.5 0 0 0 5 3.5v9a.5.5 0 0 0 .745.436l8-4.5a.5.5 0 0 0 0-.871l-8-4.5ZM4 3.5a1.5 1.5 0 0 1 2.235-1.307l8 4.5a1.5 1.5 0 0 1 0 2.615l-8 4.5A1.5 1.5 0 0 1 4 12.5v-9Z"/></svg>',
         save: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1V9.5A1.5 1.5 0 0 1 5.5 8h5A1.5 1.5 0 0 1 12 9.5V13a1 1 0 0 0 1-1V5.621a1 1 0 0 0-.293-.707l-1.621-1.621A1 1 0 0 0 10.379 3H10v1.5A1.5 1.5 0 0 1 8.5 6h-2A1.5 1.5 0 0 1 5 4.5V3H4Zm2 0v1.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V3H6Zm5 10V9.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0-.5.5V13h6ZM2 4a2 2 0 0 1 2-2h6.379a2 2 0 0 1 1.414.586l1.621 1.621A2 2 0 0 1 14 5.621V12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z"/></svg>',
         stop: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M12.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h9Zm-9-1A1.5 1.5 0 0 0 2 3.5v9A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 12.5 2h-9Z"/></svg>',
         volume: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path d="M8.694 2.04A.5.5 0 0 1 9 2.5v11a.5.5 0 0 1-.85.357l-2.927-2.875H3.5a1.5 1.5 0 0 1-1.5-1.5v-2.99a1.5 1.5 0 0 1 1.5-1.5h1.724l2.927-2.85a.5.5 0 0 1 .543-.103zm3.043 1.02l.087.058l.098.085c.063.056.15.138.252.245c.206.213.476.527.746.938a6.542 6.542 0 0 1 1.083 3.618a6.522 6.522 0 0 1-1.083 3.614c-.27.41-.541.724-.746.936l-.142.141l-.187.17l-.033.026a.5.5 0 0 1-.688-.72l.13-.117a5.49 5.49 0 0 0 .83-.985c.46-.7.919-1.73.919-3.065a5.542 5.542 0 0 0-.919-3.069a5.588 5.588 0 0 0-.54-.698l-.17-.176l-.184-.17a.5.5 0 0 1 .547-.832zM8 3.684L5.776 5.851a.5.5 0 0 1-.349.142H3.5a.5.5 0 0 0-.5.5v2.989a.5.5 0 0 0 .5.5h1.927a.5.5 0 0 1 .35.143L8 12.308V3.685zm2.738 1.374l.1.07l.133.126l.054.056c.114.123.26.302.405.54c.292.48.574 1.193.574 2.148c0 .954-.282 1.668-.573 2.148a3.388 3.388 0 0 1-.405.541l-.102.105l-.07.065l-.04.033l-.063.03c-.133.052-.442.139-.64-.108a.5.5 0 0 1 .012-.638l.134-.129l.034-.036c.075-.08.179-.208.284-.382c.21-.345.429-.882.429-1.63c0-.747-.219-1.283-.428-1.627a2.467 2.467 0 0 0-.223-.311l-.095-.105l-.069-.065a.5.5 0 0 1 .55-.83z" fill="currentColor" fill-rule="nonzero"/></svg>',
-        volumeMute: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M8.694 2.04A.5.5 0 0 1 9 2.5v11a.5.5 0 0 1-.85.357l-2.927-2.875H3.5a1.5 1.5 0 0 1-1.5-1.5v-2.99a1.5 1.5 0 0 1 1.5-1.5h1.724l2.927-2.85a.5.5 0 0 1 .543-.103ZM8 3.684L5.777 5.851a.5.5 0 0 1-.35.142H3.5a.5.5 0 0 0-.5.5v2.989a.5.5 0 0 0 .5.5h1.928a.5.5 0 0 1 .35.143L8 12.308V3.685Zm2.147 2.461a.5.5 0 0 1 .707 0l1.147 1.147l1.146-1.147a.5.5 0 1 1 .707.708L12.708 8l1.146 1.146a.5.5 0 1 1-.707.708L12 8.707l-1.147 1.147a.5.5 0 0 1-.707-.708L11.293 8l-1.146-1.146a.5.5 0 0 1 0-.708Z"/></svg>'
+        volumeMute: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M8.694 2.04A.5.5 0 0 1 9 2.5v11a.5.5 0 0 1-.85.357l-2.927-2.875H3.5a1.5 1.5 0 0 1-1.5-1.5v-2.99a1.5 1.5 0 0 1 1.5-1.5h1.724l2.927-2.85a.5.5 0 0 1 .543-.103ZM8 3.684L5.777 5.851a.5.5 0 0 1-.35.142H3.5a.5.5 0 0 0-.5.5v2.989a.5.5 0 0 0 .5.5h1.928a.5.5 0 0 1 .35.143L8 12.308V3.685Zm2.147 2.461a.5.5 0 0 1 .707 0l1.147 1.147l1.146-1.147a.5.5 0 1 1 .707.708L12.708 8l1.146 1.146a.5.5 0 1 1-.707.708L12 8.707l-1.147 1.147a.5.5 0 0 1-.707-.708L11.293 8l-1.146-1.146a.5.5 0 0 1 0-.708Z"/></svg>',
+        record: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8ZM8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM2 8a6 6 0 1 1 12 0A6 6 0 0 1 2 8Z"/></svg>',
+        remove: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><path fill="currentColor" d="M7 3h2a1 1 0 0 0-2 0ZM6 3a2 2 0 1 1 4 0h4a.5.5 0 0 1 0 1h-.564l-1.205 8.838A2.5 2.5 0 0 1 9.754 15H6.246a2.5 2.5 0 0 1-2.477-2.162L2.564 4H2a.5.5 0 0 1 0-1h4Zm1 3.5a.5.5 0 0 0-1 0v5a.5.5 0 0 0 1 0v-5ZM9.5 6a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0v-5a.5.5 0 0 1 .5-.5Zm-4.74 6.703A1.5 1.5 0 0 0 6.246 14h3.508a1.5 1.5 0 0 0 1.487-1.297L12.427 4H3.573l1.187 8.703Z"/></svg>'
       }
     };
   },
   methods: {
     onClick() {
       this.$emit("click");
-    }
-  }
-};
-const __cssModules$5 = {};
-var __component__$5 = /* @__PURE__ */ normalizeComponent(
-  __vue2_script$5,
-  render$5,
-  staticRenderFns$5,
-  false,
-  __vue2_injectStyles$5,
-  null,
-  null,
-  null
-);
-function __vue2_injectStyles$5(context) {
-  for (let o in __cssModules$5) {
-    this[o] = __cssModules$5[o];
-  }
-}
-var IconButton = /* @__PURE__ */ function() {
-  return __component__$5.exports;
-}();
-var render$4 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("button", { staticClass: "submit-button shadow-md", style: { "background-color": _vm.color }, on: { "click": _vm.clickButton } }, [_vm._v(" Submit ")]);
-};
-var staticRenderFns$4 = [];
-var SubmitButton_vue_vue_type_style_index_0_lang = "";
-const __vue2_script$4 = {
-  emits: ["submit"],
-  props: {
-    color: {
-      type: String
-    }
-  },
-  methods: {
-    clickButton() {
-      this.$emit("submit");
     }
   }
 };
@@ -311,7 +274,7 @@ function __vue2_injectStyles$4(context) {
     this[o] = __cssModules$4[o];
   }
 }
-var SubmitButton = /* @__PURE__ */ function() {
+var IconButton = /* @__PURE__ */ function() {
   return __component__$4.exports;
 }();
 function calculateLineHeadPosition(ev, element) {
@@ -333,7 +296,7 @@ var render$3 = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { ref: _vm.refId, staticClass: "ar-line-control", on: { "mousedown": _vm.onMouseDown } }, [_c("div", { staticClass: "ar-line-control__head", style: _vm.calculateSize })]);
+  return _c("div", { ref: _vm.refId, staticClass: "player-line-control", on: { "mousedown": _vm.onMouseDown } }, [_c("div", { staticClass: "player-line-control__head", style: _vm.calculateSize })]);
 };
 var staticRenderFns$3 = [];
 var LineControl_vue_vue_type_style_index_0_lang = "";
@@ -364,6 +327,8 @@ const __vue2_script$3 = {
       this.$emit("change-linehead", seekPos);
     },
     onMouseMove(ev) {
+      if (ev.buttons == 0)
+        return;
       const seekPos = calculateLineHeadPosition(ev, this.$refs[this.refId]);
       this.$emit("change-linehead", seekPos);
     }
@@ -392,14 +357,14 @@ var render$2 = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "ar-volume" }, [_c("icon-button", { staticClass: "ar-volume__icon", attrs: { "name": "volume" } }), _c("line-control", { staticClass: "ar-volume-bar", attrs: { "ref-id": "volume", "percentage": _vm.volume }, on: { "change-linehead": _vm.onChangeLinehead } })], 1);
+  return _c("div", { staticClass: "player-volume" }, [_c("icon-button", { staticClass: "player-volume__icon", attrs: { "name": "volume" } }), _c("line-control", { staticClass: "player-volume-bar", attrs: { "ref-id": "volume", "percentage": _vm.volume }, on: { "change-linehead": _vm.onChangeLinehead } })], 1);
 };
 var staticRenderFns$2 = [];
 var VolumeControl_vue_vue_type_style_index_0_lang = "";
 const __vue2_script$2 = {
   data() {
     return {
-      volume: 0.8
+      volume: 100
     };
   },
   components: {
@@ -436,10 +401,10 @@ var render$1 = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", [_c("div", { directives: [{ name: "show", rawName: "v-show", value: _vm.custom, expression: "custom" }], staticClass: "ar-player" }, [_c("div", { staticClass: "ar-player-actions" }, [_c("icon-button", { staticClass: "ar-icon ar-icon__lg ar-player__play", class: {
-    "ar-player__play--active": _vm.isPlaying,
+  return _c("div", { staticClass: "recorder-player" }, [_vm.custom ? _c("div", { staticClass: "vue-player" }, [_c("div", { staticClass: "vue-player-actions" }, [_c("icon-button", { staticClass: "ar-icon ar-icon__lg vue-player__play", class: {
+    "vue-player__play--active": _vm.isPlaying,
     disabled: _vm.disablePlayButton
-  }, attrs: { "id": "play", "name": _vm.playBtnIcon }, on: { "click": _vm.playback } })], 1), _c("div", { staticClass: "ar-player-bar" }, [_c("div", { staticClass: "ar-player__time" }, [_vm._v(_vm._s(_vm.playedTime))]), _c("line-control", { staticClass: "ar-player__progress", attrs: { "ref-id": "progress", "percentage": _vm.progress }, on: { "change-linehead": _vm._onUpdateProgress } }), _c("div", { staticClass: "ar-player__time" }, [_vm._v(_vm._s(_vm.duration))]), _c("volume-control", { class: { disabled: _vm.disablePlayButton }, on: { "change-volume": _vm._onChangeVolume } })], 1), _c("audio", { attrs: { "id": _vm.playerUniqId, "src": _vm.audioSource, "type": "audio/mpeg" } })]), _c("div", { directives: [{ name: "show", rawName: "v-show", value: !_vm.custom, expression: "!custom" }] }, [_c("figure", { staticClass: "recorder-player" }, [_c("audio", { staticClass: "mx-auto", attrs: { "controls": "", "src": _vm.audioSource, "type": "audio/mpeg" } }, [_vm._v(" Your browser does not support the "), _c("code", [_vm._v("audio")]), _vm._v(" element. ")])])])]);
+  }, attrs: { "id": "play", "name": _vm.playBtnIcon }, on: { "click": _vm.playback } })], 1), _c("div", { staticClass: "vue-player-bar" }, [_c("div", { staticClass: "vue-player__time" }, [_vm._v(_vm._s(_vm.playedTime) + " / " + _vm._s(_vm.duration))]), _c("line-control", { staticClass: "vue-player__progress", attrs: { "ref-id": "progress", "percentage": _vm.progress }, on: { "change-linehead": _vm._onUpdateProgress } }), _c("volume-control", { class: { disabled: _vm.disablePlayButton }, on: { "change-volume": _vm._onChangeVolume } })], 1)]) : _vm._e(), _c("figure", { directives: [{ name: "show", rawName: "v-show", value: !_vm.custom, expression: "!custom" }] }, [_c("audio", { staticClass: "mx-auto", attrs: { "controls": "", "src": _vm.audioSource, "id": _vm.playerUniqId, "type": "audio/mpeg" } }, [_vm._v(" Your browser does not support the "), _c("code", [_vm._v("audio")]), _vm._v(" element. ")])])]);
 };
 var staticRenderFns$1 = [];
 var PlayerWidget_vue_vue_type_style_index_0_lang = "";
@@ -466,24 +431,18 @@ const __vue2_script$1 = {
   },
   mounted() {
     this.player = document.getElementById(this.playerUniqId);
-    debugger;
-    if (!!this.player) {
-      this.player.addEventListener("ended", () => {
-        this.isPlaying = false;
-      });
-      this.player.addEventListener("loadeddata", (ev) => {
-        this._resetProgress();
-        this.duration = convertTimeMMSS(this.player.duration);
-      });
-      this.player.addEventListener("timeupdate", this._onTimeUpdate);
-      this.$eventBus.$on("remove-record", () => {
-        this._resetProgress();
-      });
-    }
+    this.player.addEventListener("ended", () => {
+      this.isPlaying = false;
+    });
+    this.player.addEventListener("loadeddata", (ev) => {
+      this._resetProgress();
+      this.duration = convertTimeMMSS(this.player.duration);
+    });
+    this.player.addEventListener("timeupdate", this._onTimeUpdate);
   },
   computed: {
     disablePlayButton() {
-      return !!this.src;
+      return !this.src;
     },
     audioSource() {
       if (!this.src && this.record) {
@@ -527,7 +486,7 @@ const __vue2_script$1 = {
     },
     _onUpdateProgress(pos) {
       if (pos) {
-        this.player.currentTime = pos * this.player.duration;
+        this.currentTime = pos * this.duration;
       }
     },
     _onChangeVolume(val) {
@@ -560,14 +519,20 @@ var render = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "recorder-container" }, [_c("div", { staticClass: "recorder-action" }, [_c("icon-button", { attrs: { "name": _vm.recording ? "stop" : "mic" }, on: { "click": function($event) {
+  return _c("div", { staticClass: "recorder-container" }, [_c("div", { staticClass: "recorder-action" }, [_c("icon-button", { staticClass: "vue-recorder-action", attrs: { "name": _vm.iconButtonType }, on: { "click": function($event) {
     return _vm.toggleRecording();
-  } } }), _c("span", { staticClass: "recorder-timer" }, [_vm._v(_vm._s(_vm.recordedTime))])], 1), _c("div", { staticClass: "recorder-message" }, [_vm.instructionMessage ? _c("span", { staticClass: "color-primary" }, [_vm._v(" " + _vm._s(_vm.instructionMessage) + " ")]) : _vm._e(), _vm.successMessage ? _c("span", { staticClass: "color-success" }, [_vm._v(" " + _vm._s(_vm.successMessage) + " ")]) : _vm._e(), _vm.errorMessage ? _c("span", { staticClass: "color-danger" }, [_vm._v(" " + _vm._s(_vm.errorMessage) + " ")]) : _vm._e()]), !_vm.compact ? _c("player-widget", { attrs: { "custom": _vm.customPlayer, "src": _vm.recordedAudio, "record": _vm.recordedBlob } }) : _vm._e(), _c("submit-button", { attrs: { "color": _vm.buttonColor }, on: { "submit": _vm.sendData } })], 1);
+  } } }), !_vm.compact ? _c("icon-button", { staticClass: "vue-recorder-stop", attrs: { "name": "stop" }, on: { "click": function($event) {
+    return _vm.stopRecording();
+  } } }) : _vm._e()], 1), _c("div", { staticClass: "timing" }, [_vm.attempts && !_vm.compact ? _c("div", { staticClass: "time-attempt" }, [_vm._v(" Attempts: " + _vm._s(_vm.attemptsLeft) + "/" + _vm._s(_vm.attempts) + " ")]) : _vm._e(), _c("div", { staticClass: "recording-time" }, [_vm.countdown ? _c("span", [_vm._v(" " + _vm._s(_vm.countdownTitle))]) : _vm._e(), _c("span", { staticClass: "recorder-timer" }, [_vm._v(_vm._s(_vm.recordedTime))])]), _vm.time && !_vm.compact ? _c("div", { staticClass: "time-limit" }, [_vm._v(" Record duration is limited: " + _vm._s(_vm.time) + "s ")]) : _vm._e()]), !_vm.compact && _vm.recordList.length > 0 ? _c("div", { staticClass: "vue-records" }, _vm._l(_vm.recordList, function(record, idx) {
+    return _c("div", { key: record.id, staticClass: "vue-records__record", class: { "vue-records__record--selected": record.id === _vm.selected.id }, on: { "click": function($event) {
+      return _vm.choiceRecord(record);
+    } } }, [_c("span", [_vm._v("Record " + _vm._s(idx + 1))]), _c("div", { staticClass: "list-actions" }, [record.id === _vm.selected.id && _vm.showDownloadButton ? _c("icon-button", { attrs: { "id": "download", "name": "download" }, on: { "click": _vm.download } }) : _vm._e(), record.id === _vm.selected.id && _vm.showUploadButton ? _c("icon-button", { staticClass: "submit-button", attrs: { "id": "upload", "name": "upload" }, on: { "click": _vm.sendData } }) : _vm._e(), record.id === _vm.selected.id ? _c("icon-button", { attrs: { "name": "remove" }, on: { "click": function($event) {
+      return _vm.removeRecord(idx);
+    } } }) : _vm._e()], 1), _c("div", { staticClass: "vue__text" }, [_vm._v(_vm._s(record.duration))])]);
+  }), 0) : _vm._e(), _c("player-widget", { attrs: { "custom": _vm.customPlayer, "src": _vm.recordedAudio, "record": _vm.selected } }), _vm.successMessage || _vm.errorMessage ? _c("div", { staticClass: "recorder-message" }, [_vm.successMessage ? _c("span", { staticClass: "color-success" }, [_vm._v(" " + _vm._s(_vm.successMessage) + " ")]) : _vm._e(), _vm.errorMessage ? _c("span", { staticClass: "color-danger" }, [_vm._v(" " + _vm._s(_vm.errorMessage) + " ")]) : _vm._e()]) : _vm._e()], 1);
 };
 var staticRenderFns = [];
 var RecorderWidget_vue_vue_type_style_index_0_lang = "";
-const INSTRUCTION_MESSAGE = "Click icon to start recording message.";
-const INSTRUCTION_MESSAGE_STOP = "Click icon again to stop recording.";
 const ERROR_MESSAGE = "Failed to use microphone. Please refresh and try again and permit the use of a microphone.";
 const SUCCESS_MESSAGE = "Successfully recorded message!";
 const SUCCESS_MESSAGE_SUBMIT = "Successfully submitted audio message! Thank you!";
@@ -576,21 +541,26 @@ const __vue2_script = {
   name: "RecorderWidget",
   components: {
     IconButton,
-    SubmitButton,
     PlayerWidget
   },
   props: {
-    time: { type: Number, default: 1 },
+    attempts: { type: Number },
+    time: { type: Number },
     bitRate: { type: Number, default: 128 },
     sampleRate: { type: Number, default: 44100 },
+    showDownloadButton: { type: Boolean, default: true },
+    showUploadButton: { type: Boolean, default: true },
+    beforeRecording: { type: Function },
+    pauseRecording: { type: Function },
+    afterRecording: { type: Function },
+    selectRecord: { type: Function },
     backendEndpoint: { type: String },
-    buttonColor: { type: String, default: "green" },
+    filename: { type: String, default: "audio" },
     compact: { type: Boolean, default: false },
     customPlayer: { type: Boolean, default: false },
-    afterRecording: { type: Function },
-    successfulUpload: { type: Function },
-    failedUpload: { type: Function },
-    customUpload: { type: Function, default: null }
+    customUpload: { type: Function, default: null },
+    countdown: { type: Boolean, default: false },
+    countdownTitle: { type: String, default: "Time remaining" }
   },
   data() {
     return {
@@ -600,21 +570,31 @@ const __vue2_script = {
       recorder: null,
       successMessage: null,
       errorMessage: null,
-      instructionMessage: INSTRUCTION_MESSAGE
+      recordList: [],
+      selected: {}
     };
   },
   computed: {
     recordedTime() {
-      var _a, _b;
+      var _a, _b, _c;
       if (this.time && ((_a = this.recorder) == null ? void 0 : _a.duration) >= this.time * 60) {
         this.toggleRecording();
       }
-      return convertTimeMMSS((_b = this.recorder) == null ? void 0 : _b.duration);
+      if (this.countdown) {
+        return convertTimeMMSS(this.time - ((_b = this.recorder) == null ? void 0 : _b.duration));
+      }
+      return convertTimeMMSS((_c = this.recorder) == null ? void 0 : _c.duration);
+    },
+    attemptsLeft() {
+      return this.attempts - this.recordList.length;
+    },
+    iconButtonType() {
+      return this.recording && this.compact ? "stop" : this.recording ? "record" : "mic";
     }
   },
   beforeUnmount() {
     if (this.recording) {
-      this.stopRecorder();
+      this.stopRecording();
     }
   },
   methods: {
@@ -635,17 +615,18 @@ const __vue2_script = {
       this.recorder.start();
       this.successMessage = null;
       this.errorMessage = null;
-      this.instructionMessage = INSTRUCTION_MESSAGE_STOP;
       this.service = new Service(this.backendEndpoint);
     },
     stopRecording() {
+      this.recording = false;
       this.recorder.stop();
-      const recordList = this.recorder.recordList();
-      this.recordedAudio = recordList[0].url;
-      this.recordedBlob = recordList[0].blob;
+      const recorded = this.recorder.recordList();
+      this.recordList.push(recorded[0]);
+      this.selected = recorded[0];
+      this.recordedAudio = recorded[0].url;
+      this.recordedBlob = recorded[0].blob;
       if (this.recordedAudio) {
         this.successMessage = SUCCESS_MESSAGE;
-        this.instructionMessage = null;
       }
       if (this.afterRecording) {
         this.afterRecording();
@@ -677,8 +658,29 @@ const __vue2_script = {
     },
     micFailed() {
       this.recording = false;
-      this.instructionMessage = INSTRUCTION_MESSAGE;
       this.errorMessage = ERROR_MESSAGE;
+    },
+    removeRecord(idx) {
+      this.recordList.splice(idx, 1);
+      this.$set(this.selected, "url", null);
+      this.$emit("remove-record");
+    },
+    choiceRecord(record) {
+      if (this.selected === record) {
+        return;
+      }
+      this.selected = record;
+      this.selectRecord && this.selectRecord(record);
+    },
+    download() {
+      if (!this.selected.url) {
+        return;
+      }
+      const type = this.selected.blob.type.split("/")[1];
+      const link = document.createElement("a");
+      link.href = this.selected.url;
+      link.download = `${this.filename}.${type}`;
+      link.click();
     }
   }
 };
