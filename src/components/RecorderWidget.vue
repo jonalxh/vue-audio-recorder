@@ -4,12 +4,14 @@
       <icon-button
         class="vue-recorder-action"
         :name="iconButtonType"
+        :disabled="attemptsLeft == 0"
         @click="toggleRecording()"
       />
       <icon-button
         v-if="!compact"
         class="vue-recorder-stop"
         name="stop"
+        :disabled="attemptsLeft == 0"
         @click="stopRecording()"
       />
     </div>
@@ -131,9 +133,6 @@ export default {
 
   computed: {
     recordedTime() {
-      if (this.time && this.recorder?.duration >= this.time * 60) {
-        this.toggleRecording();
-      }
       if (this.countdown) {
         return convertTimeMMSS(this.time - this.recorder?.duration);
       }
@@ -151,6 +150,17 @@ export default {
         : this.recording
         ? "record"
         : "mic";
+    },
+  },
+
+  watch: {
+    "recorder.duration": {
+      deep: true,
+      handler() {
+        if (this.time && this.recorder?.duration >= this.time) {
+          this.toggleRecording();
+        }
+      },
     },
   },
 
@@ -190,10 +200,7 @@ export default {
 
       if (this.selected && this.selected.url) {
         this.recordList.push(this.selected);
-
-        if (this.selected.url) {
-          this.successMessage = SUCCESS_MESSAGE;
-        }
+        this.successMessage = SUCCESS_MESSAGE;
 
         if (this.afterRecording) {
           this.afterRecording();
@@ -343,7 +350,7 @@ export default {
   border-radius: 2em;
 
   &--selected {
-    border: 1px solid rgba(100, 100, 100, 0.2);
+    border: 1px solid var(--border-color, rgba(100, 100, 100, 0.2));
   }
 
   .icon-button {

@@ -16,7 +16,7 @@
         </div>
         <div v-if="showRecorder">
           <label for="limit">Time limit in seconds</label>
-          <input id="limit" type="number" v-model="limit" />
+          <input id="limit" type="number" v-model.number="limit" />
         </div>
         <div v-if="showRecorder">
           <label for="attempts">Attempts limit</label>

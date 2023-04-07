@@ -516,9 +516,9 @@ var render = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "recorder-container" }, [_c("div", { staticClass: "recorder-action" }, [_c("icon-button", { staticClass: "vue-recorder-action", attrs: { "name": _vm.iconButtonType }, on: { "click": function($event) {
+  return _c("div", { staticClass: "recorder-container" }, [_c("div", { staticClass: "recorder-action" }, [_c("icon-button", { staticClass: "vue-recorder-action", attrs: { "name": _vm.iconButtonType, "disabled": _vm.attemptsLeft == 0 }, on: { "click": function($event) {
     return _vm.toggleRecording();
-  } } }), !_vm.compact ? _c("icon-button", { staticClass: "vue-recorder-stop", attrs: { "name": "stop" }, on: { "click": function($event) {
+  } } }), !_vm.compact ? _c("icon-button", { staticClass: "vue-recorder-stop", attrs: { "name": "stop", "disabled": _vm.attemptsLeft == 0 }, on: { "click": function($event) {
     return _vm.stopRecording();
   } } }) : _vm._e()], 1), _c("div", { staticClass: "timing" }, [_vm.attempts && !_vm.compact ? _c("div", { staticClass: "time-attempt" }, [_vm._v(" Attempts: " + _vm._s(_vm.attemptsLeft) + "/" + _vm._s(_vm.attempts) + " ")]) : _vm._e(), _c("div", { staticClass: "recording-time" }, [_vm.countdown ? _c("span", [_vm._v(" " + _vm._s(_vm.countdownTitle))]) : _vm._e(), _c("span", { staticClass: "recorder-timer" }, [_vm._v(_vm._s(_vm.recordedTime))])]), _vm.time && !_vm.compact ? _c("div", { staticClass: "time-limit" }, [_vm._v(" Record duration is limited: " + _vm._s(_vm.time) + "s ")]) : _vm._e()]), !_vm.compact && _vm.recordList.length > 0 ? _c("div", { staticClass: "vue-records" }, _vm._l(_vm.recordList, function(record, idx) {
     return _c("div", { key: record.id, staticClass: "vue-records__record", class: { "vue-records__record--selected": record.id === _vm.selected.id }, on: { "click": function($event) {
@@ -571,20 +571,28 @@ const __vue2_script = {
   },
   computed: {
     recordedTime() {
-      var _a, _b, _c;
-      if (this.time && ((_a = this.recorder) == null ? void 0 : _a.duration) >= this.time * 60) {
-        this.toggleRecording();
-      }
+      var _a, _b;
       if (this.countdown) {
-        return convertTimeMMSS(this.time - ((_b = this.recorder) == null ? void 0 : _b.duration));
+        return convertTimeMMSS(this.time - ((_a = this.recorder) == null ? void 0 : _a.duration));
       }
-      return convertTimeMMSS((_c = this.recorder) == null ? void 0 : _c.duration);
+      return convertTimeMMSS((_b = this.recorder) == null ? void 0 : _b.duration);
     },
     attemptsLeft() {
       return this.attempts - this.recordList.length;
     },
     iconButtonType() {
       return this.recording && this.compact ? "stop" : this.recording ? "record" : "mic";
+    }
+  },
+  watch: {
+    "recorder.duration": {
+      deep: true,
+      handler() {
+        var _a;
+        if (this.time && ((_a = this.recorder) == null ? void 0 : _a.duration) >= this.time) {
+          this.toggleRecording();
+        }
+      }
     }
   },
   beforeUnmount() {
@@ -619,9 +627,7 @@ const __vue2_script = {
       this.selected = recorded[0];
       if (this.selected && this.selected.url) {
         this.recordList.push(this.selected);
-        if (this.selected.url) {
-          this.successMessage = SUCCESS_MESSAGE;
-        }
+        this.successMessage = SUCCESS_MESSAGE;
         if (this.afterRecording) {
           this.afterRecording();
         }

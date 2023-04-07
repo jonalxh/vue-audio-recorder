@@ -173,7 +173,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: unset;
-  border: 1px solid var(--border-color, #eee);
+  border: 1px solid var(--border-color, rgba(100, 100, 100, 0.2));
   border-radius: 10em;
   padding: 0.5em;
   box-sizing: border-box;
@@ -220,11 +220,13 @@ export default {
   }
 }
 
-.disabled {
+.disabled,
+:disabled {
   opacity: 0.5;
   pointer-events: none;
   cursor: not-allowed;
   user-select: none;
+  border-color: #999 !important;
 }
 
 figure {
