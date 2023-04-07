@@ -130,7 +130,6 @@ export default {
       recorder: null,
       successMessage: null,
       errorMessage: null,
-
       recordList: [],
       selected: {},
     };
@@ -193,15 +192,22 @@ export default {
       this.recording = false;
       this.recorder.stop();
       const recorded = this.recorder.recordList();
-      this.recordList.push(recorded[0]);
       this.selected = recorded[0];
-      this.recordedAudio = recorded[0].url;
-      this.recordedBlob = recorded[0].blob;
-      if (this.recordedAudio) {
-        this.successMessage = SUCCESS_MESSAGE;
-      }
-      if (this.afterRecording) {
-        this.afterRecording();
+
+      if (this.selected) {
+        this.recordList.push(this.selected);
+        this.recordedAudio = this.selected.url;
+        this.recordedBlob = this.selected.blob;
+
+        if (this.recordedAudio) {
+          this.successMessage = SUCCESS_MESSAGE;
+        }
+
+        if (this.afterRecording) {
+          this.afterRecording();
+        }
+      } else {
+        this.errorMessage = ERROR_SUBMITTING_MESSAGE;
       }
     },
 

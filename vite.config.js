@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 import { createVuePlugin } from "vite-plugin-vue2";
 import envCompatible from "vite-plugin-env-compatible";
 import { viteCommonjs } from "@originjs/vite-plugin-commonjs";
-import { libInjectCss, scanEntries } from "vite-plugin-lib-inject-css";
+import { libInjectCss } from "vite-plugin-lib-inject-css";
 
 export default defineConfig({
   resolve: {
@@ -31,7 +31,7 @@ export default defineConfig({
       entry: path.resolve(__dirname, "src/index.js"),
       name: "vuejs2-audio-recorder",
       fileName: "vuejs2-audio-recorder",
-      formats: ["es", "cjs", "umd"],
+      formats: ["es", "umd"],
     },
     rollupOptions: {
       external: ["vue"],
