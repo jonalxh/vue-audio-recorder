@@ -32,7 +32,7 @@
       <audio
         controls
         :src="audioSource"
-        :id="playerUniqId"
+        ref="playerRef"
         type="audio/mpeg"
         class="mx-auto"
       >
@@ -75,7 +75,7 @@ export default {
   },
 
   mounted() {
-    this.player = document.getElementById(this.playerUniqId);
+    this.player = this.$refs.playerRef;
 
     this.player.addEventListener("ended", () => {
       this.isPlaying = false;
@@ -103,10 +103,6 @@ export default {
 
     playBtnIcon() {
       return this.isPlaying ? "pause" : "play";
-    },
-
-    playerUniqId() {
-      return `audio-player${this._uid}`;
     },
   },
 
