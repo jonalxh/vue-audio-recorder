@@ -404,7 +404,7 @@ var render$1 = function() {
   return _c("div", { staticClass: "recorder-player" }, [_vm.custom ? _c("div", { staticClass: "vue-player" }, [_c("div", { staticClass: "vue-player-actions" }, [_c("icon-button", { staticClass: "ar-icon ar-icon__lg vue-player__play", class: {
     "vue-player__play--active": _vm.isPlaying,
     disabled: _vm.disablePlayButton
-  }, attrs: { "id": "play", "name": _vm.playBtnIcon }, on: { "click": _vm.playback } })], 1), _c("div", { staticClass: "vue-player-bar" }, [_c("div", { staticClass: "vue-player__time" }, [_vm._v(_vm._s(_vm.playedTime) + " / " + _vm._s(_vm.duration))]), _c("line-control", { staticClass: "vue-player__progress", attrs: { "ref-id": "progress", "percentage": _vm.progress }, on: { "change-linehead": _vm._onUpdateProgress } }), _c("volume-control", { class: { disabled: _vm.disablePlayButton }, on: { "change-volume": _vm._onChangeVolume } })], 1)]) : _vm._e(), _c("figure", { directives: [{ name: "show", rawName: "v-show", value: !_vm.custom, expression: "!custom" }] }, [_c("audio", { staticClass: "mx-auto", attrs: { "controls": "", "src": _vm.audioSource, "id": _vm.playerUniqId, "type": "audio/mpeg" } }, [_vm._v(" Your browser does not support the "), _c("code", [_vm._v("audio")]), _vm._v(" element. ")])])]);
+  }, attrs: { "id": "play", "name": _vm.playBtnIcon }, on: { "click": _vm.playback } })], 1), _c("div", { staticClass: "vue-player-bar" }, [_c("div", { staticClass: "vue-player__time" }, [_vm._v(_vm._s(_vm.playedTime) + " / " + _vm._s(_vm.duration))]), _c("line-control", { staticClass: "vue-player__progress", attrs: { "ref-id": "progress", "percentage": _vm.progress }, on: { "change-linehead": _vm._onUpdateProgress } }), _c("volume-control", { class: { disabled: _vm.disablePlayButton }, on: { "change-volume": _vm._onChangeVolume } })], 1)]) : _vm._e(), _c("figure", { directives: [{ name: "show", rawName: "v-show", value: !_vm.custom, expression: "!custom" }] }, [_c("audio", { ref: "playerRef", staticClass: "mx-auto", attrs: { "controls": "", "src": _vm.audioSource, "type": "audio/mpeg" } }, [_vm._v(" Your browser does not support the "), _c("code", [_vm._v("audio")]), _vm._v(" element. ")])])]);
 };
 var staticRenderFns$1 = [];
 var PlayerWidget_vue_vue_type_style_index_0_lang = "";
@@ -430,7 +430,7 @@ const __vue2_script$1 = {
     };
   },
   mounted() {
-    this.player = document.getElementById(this.playerUniqId);
+    this.player = this.$refs.playerRef;
     this.player.addEventListener("ended", () => {
       this.isPlaying = false;
     });
@@ -452,9 +452,6 @@ const __vue2_script$1 = {
     },
     playBtnIcon() {
       return this.isPlaying ? "pause" : "play";
-    },
-    playerUniqId() {
-      return `audio-player${this._uid}`;
     }
   },
   methods: {
