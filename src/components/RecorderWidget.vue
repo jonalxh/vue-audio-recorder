@@ -105,19 +105,19 @@ export default {
     time: { type: Number },
     bitRate: { type: Number, default: 128 },
     sampleRate: { type: Number, default: 44100 },
+    filename: { type: String, default: "audio" },
+    countdownTitle: { type: String, default: "Time remaining" },
+    backendEndpoint: { type: String },
+    //Boolean
     showDownloadButton: { type: Boolean, default: true },
     showUploadButton: { type: Boolean, default: true },
-    beforeRecording: { type: Function },
-    pauseRecording: { type: Function },
-    afterRecording: { type: Function },
-    selectRecord: { type: Function },
-    backendEndpoint: { type: String },
-    filename: { type: String, default: "audio" },
     compact: { type: Boolean, default: false },
     customPlayer: { type: Boolean, default: false },
-    customUpload: { type: Function, default: null },
     countdown: { type: Boolean, default: false },
-    countdownTitle: { type: String, default: "Time remaining" },
+    //Function
+    afterRecording: { type: Function, default: null },
+    selectRecordChanged: { type: Function, default: null },
+    customUpload: { type: Function, default: null },
   },
 
   data() {
@@ -201,9 +201,8 @@ export default {
       if (this.selected && this.selected.url) {
         this.recordList.push(this.selected);
         this.successMessage = SUCCESS_MESSAGE;
-
-        if (this.afterRecording) {
-          this.afterRecording();
+        if (afterRecording) {
+          this.afterRecording(this.selected);
         }
       } else {
         this.errorMessage = ERROR_SUBMITTING_MESSAGE;
@@ -254,7 +253,7 @@ export default {
         return;
       }
       this.selected = record;
-      this.selectRecord && this.selectRecord(record);
+      this.selectRecordChanged && this.selectRecordChanged(record);
     },
 
     download() {

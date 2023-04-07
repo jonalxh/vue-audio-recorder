@@ -1,6 +1,6 @@
 <template>
   <div class="recorder-player">
-    <div v-if="custom" class="vue-player">
+    <div v-if="customPlayer" class="vue-player">
       <div class="vue-player-actions">
         <icon-button
           id="play"
@@ -28,7 +28,7 @@
         />
       </div>
     </div>
-    <figure v-show="!custom">
+    <figure v-show="!customPlayer">
       <audio
         controls
         :src="audioSource"
@@ -60,8 +60,8 @@ export default {
 
   props: {
     record: { type: Object },
-    filename: { type: String },
-    custom: { type: Boolean, default: false },
+    src: { type: String },
+    customPlayer: { type: Boolean, default: false },
   },
 
   data() {
@@ -96,6 +96,8 @@ export default {
     audioSource() {
       if (this.record) {
         return this.record.url;
+      } else if (this.src) {
+        return this.src;
       }
       return "";
     },
@@ -118,7 +120,6 @@ export default {
           this.player.play();
         }, 0);
       }
-
       this.isPlaying = !this.isPlaying;
     },
 

@@ -402,10 +402,10 @@ var render$1 = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "recorder-player" }, [_vm.custom ? _c("div", { staticClass: "vue-player" }, [_c("div", { staticClass: "vue-player-actions" }, [_c("icon-button", { staticClass: "ar-icon ar-icon__lg vue-player__play", class: {
+  return _c("div", { staticClass: "recorder-player" }, [_vm.customPlayer ? _c("div", { staticClass: "vue-player" }, [_c("div", { staticClass: "vue-player-actions" }, [_c("icon-button", { staticClass: "ar-icon ar-icon__lg vue-player__play", class: {
     "vue-player__play--active": _vm.isPlaying,
     disabled: _vm.disablePlayButton
-  }, attrs: { "id": "play", "name": _vm.playBtnIcon }, on: { "click": _vm.playback } })], 1), _c("div", { staticClass: "vue-player-bar" }, [_c("div", { staticClass: "vue-player__time" }, [_vm._v(_vm._s(_vm.playedTime) + " / " + _vm._s(_vm.duration))]), _c("line-control", { staticClass: "vue-player__progress", attrs: { "ref-id": "progress", "percentage": _vm.progress }, on: { "change-linehead": _vm._onUpdateProgress } }), _c("volume-control", { class: { disabled: _vm.disablePlayButton }, on: { "change-volume": _vm._onChangeVolume } })], 1)]) : _vm._e(), _c("figure", { directives: [{ name: "show", rawName: "v-show", value: !_vm.custom, expression: "!custom" }] }, [_c("audio", { ref: "playerRef", staticClass: "mx-auto", attrs: { "controls": "", "src": _vm.audioSource, "type": "audio/mpeg" } }, [_vm._v(" Your browser does not support the "), _c("code", [_vm._v("audio")]), _vm._v(" element. ")])])]);
+  }, attrs: { "id": "play", "name": _vm.playBtnIcon }, on: { "click": _vm.playback } })], 1), _c("div", { staticClass: "vue-player-bar" }, [_c("div", { staticClass: "vue-player__time" }, [_vm._v(_vm._s(_vm.playedTime) + " / " + _vm._s(_vm.duration))]), _c("line-control", { staticClass: "vue-player__progress", attrs: { "ref-id": "progress", "percentage": _vm.progress }, on: { "change-linehead": _vm._onUpdateProgress } }), _c("volume-control", { class: { disabled: _vm.disablePlayButton }, on: { "change-volume": _vm._onChangeVolume } })], 1)]) : _vm._e(), _c("figure", { directives: [{ name: "show", rawName: "v-show", value: !_vm.customPlayer, expression: "!customPlayer" }] }, [_c("audio", { ref: "playerRef", staticClass: "mx-auto", attrs: { "controls": "", "src": _vm.audioSource, "type": "audio/mpeg" } }, [_vm._v(" Your browser does not support the "), _c("code", [_vm._v("audio")]), _vm._v(" element. ")])])]);
 };
 var staticRenderFns$1 = [];
 var PlayerWidget_vue_vue_type_style_index_0_lang = "";
@@ -418,8 +418,8 @@ const __vue2_script$1 = {
   },
   props: {
     record: { type: Object },
-    filename: { type: String },
-    custom: { type: Boolean, default: false }
+    src: { type: String },
+    customPlayer: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -447,6 +447,8 @@ const __vue2_script$1 = {
     audioSource() {
       if (this.record) {
         return this.record.url;
+      } else if (this.src) {
+        return this.src;
       }
       return "";
     },
@@ -545,19 +547,17 @@ const __vue2_script = {
     time: { type: Number },
     bitRate: { type: Number, default: 128 },
     sampleRate: { type: Number, default: 44100 },
+    filename: { type: String, default: "audio" },
+    countdownTitle: { type: String, default: "Time remaining" },
+    backendEndpoint: { type: String },
     showDownloadButton: { type: Boolean, default: true },
     showUploadButton: { type: Boolean, default: true },
-    beforeRecording: { type: Function },
-    pauseRecording: { type: Function },
-    afterRecording: { type: Function },
-    selectRecord: { type: Function },
-    backendEndpoint: { type: String },
-    filename: { type: String, default: "audio" },
     compact: { type: Boolean, default: false },
     customPlayer: { type: Boolean, default: false },
-    customUpload: { type: Function, default: null },
     countdown: { type: Boolean, default: false },
-    countdownTitle: { type: String, default: "Time remaining" }
+    afterRecording: { type: Function, default: null },
+    selectRecordChanged: { type: Function, default: null },
+    customUpload: { type: Function, default: null }
   },
   data() {
     return {
@@ -628,8 +628,8 @@ const __vue2_script = {
       if (this.selected && this.selected.url) {
         this.recordList.push(this.selected);
         this.successMessage = SUCCESS_MESSAGE;
-        if (this.afterRecording) {
-          this.afterRecording();
+        if (afterRecording) {
+          this.afterRecording(this.selected);
         }
       } else {
         this.errorMessage = ERROR_SUBMITTING_MESSAGE;
@@ -673,7 +673,7 @@ const __vue2_script = {
         return;
       }
       this.selected = record;
-      this.selectRecord && this.selectRecord(record);
+      this.selectRecordChanged && this.selectRecordChanged(record);
     },
     download() {
       if (this.selected && !this.selected.url) {
