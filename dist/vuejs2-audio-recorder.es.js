@@ -534,8 +534,6 @@ var staticRenderFns = [];
 var RecorderWidget_vue_vue_type_style_index_0_lang = "";
 const ERROR_MESSAGE = "Failed to use microphone. Please refresh and try again and permit the use of a microphone.";
 const SUCCESS_MESSAGE = "Successfully recorded message!";
-const SUCCESS_MESSAGE_SUBMIT = "Successfully submitted audio message! Thank you!";
-const ERROR_SUBMITTING_MESSAGE = "Error submitting audio message! Please try again later.";
 const __vue2_script = {
   name: "RecorderWidget",
   components: {
@@ -555,7 +553,6 @@ const __vue2_script = {
     compact: { type: Boolean, default: false },
     customPlayer: { type: Boolean, default: false },
     countdown: { type: Boolean, default: false },
-    afterRecording: { type: Function, default: null },
     selectRecordChanged: { type: Function, default: null },
     customUpload: { type: Function, default: null }
   },
@@ -619,6 +616,7 @@ const __vue2_script = {
       this.successMessage = null;
       this.errorMessage = null;
       this.service = new Service(this.backendEndpoint);
+      this.$emit("beforeRecording");
     },
     stopRecording() {
       this.recording = false;
@@ -628,9 +626,7 @@ const __vue2_script = {
       if (this.selected && this.selected.url) {
         this.recordList.push(this.selected);
         this.successMessage = SUCCESS_MESSAGE;
-        if (afterRecording) {
-          this.afterRecording(this.selected);
-        }
+        this.$emit("afterRecording", this.selected);
       } else {
         this.errorMessage = ERROR_SUBMITTING_MESSAGE;
       }
@@ -639,41 +635,23 @@ const __vue2_script = {
       if (!this.selected) {
         return;
       }
-      let result = null;
-      if (this.customUpload) {
-        result = await this.customUpload(this.selected.blob);
-      } else {
-        result = await this.service.postBackend(this.selected.blob);
-      }
-      if (result) {
-        this.errorMessage = null;
-        this.successMessage = SUCCESS_MESSAGE_SUBMIT;
-        if (this.successfulUpload) {
-          this.successfulUpload();
-        }
-      } else {
-        this.successMessage = null;
-        this.errorMessage = ERROR_SUBMITTING_MESSAGE;
-        if (this.failedUpload) {
-          this.failedUpload();
-        }
-      }
+      this.customUpload(this.selected.blob);
     },
     micFailed() {
       this.recording = false;
       this.errorMessage = ERROR_MESSAGE;
+      this.$emit("micFailed");
     },
     removeRecord(idx) {
       this.recordList.splice(idx, 1);
       this.$set(this.selected, "url", null);
-      this.$emit("remove-record");
+      this.$emit("removeRecord", idx);
     },
     choiceRecord(record) {
       if (this.selected === record) {
         return;
       }
-      this.selected = record;
-      this.selectRecordChanged && this.selectRecordChanged(record);
+      this.$emit("selectRecordChanged", record);
     },
     download() {
       if (this.selected && !this.selected.url) {
