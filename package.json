@@ -1,7 +1,7 @@
 {
   "name": "vuejs2-audio-recorder",
   "description": "New version of audio recorder for Vue.js 2 with vite",
-  "version": "1.1.7",
+  "version": "2.0.0",
   "author": "Hossein Rahimi",
   "license": "MIT",
   "files": [
@@ -21,7 +21,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "core-js": "3.30.0"
+    "core-js": "3.30.0",
+    "wavesurfer.js": "^6.6.3"
   },
   "peerDependencies": {
     "vue": "2.7.14"

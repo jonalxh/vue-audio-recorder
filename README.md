@@ -1,15 +1,19 @@
-# vue-audio-recorder
+# vuejs2-audio-recorder
 
 > New version of audio recorder for Vue.js with vite.
 > It allows to record, play, download and store records on a server. It is based on vue-audio-recorder which is not longer being supported by the original author (grishkovelli).
 
-## Default mode
+## Default Mode
 
-![](https://raw.githubusercontent.com/rhosseinr/vue-audio-recorder/master/screenshot.png)
+![](https://raw.githubusercontent.com/rhosseinr/vue-audio-recorder/master/default.png)
 
-## Minimal mode
+## Minimal Mode
 
 ![](https://raw.githubusercontent.com/rhosseinr/vue-audio-recorder/master/minimal.png)
+
+## Wave Mode
+
+![](https://raw.githubusercontent.com/rhosseinr/vue-audio-recorder/master/wave.png)
 
 ### Features
 
@@ -18,6 +22,10 @@
 - Records limit
 - Individual an audio player
 - MP3/WAV support
+
+### Bug
+
+- Player Error CORS for external URL
 
 ### Tested in (desktop)
 
@@ -53,14 +61,17 @@ npm i vuejs2-audio-recorder --save
 | compact              | Boolean  | A minimal interface to record just one audio and play it.                          |
 | countdown            | Boolean  | Will show the time remaining instead of current recorded time. Default: false      |
 | customPlayer         | Boolean  | show custom player style. Default: false                                           |
+| wavePlayer           | Boolean  | show Wave player style. Default: false                                             |
 | countdownTitle       | String   | Title over time remaining when countdown is set to true. Default: "Time Remaining" |
 
 ## AudioPlayer props
 
-| Prop         | Type    | Description                              |
-| ------------ | ------- | ---------------------------------------- |
-| src          | String  | Specifies the URL of the audio file      |
-| customPlayer | Boolean | show custom player style. Default: false |
+| Prop         | Type    | Description                                               |
+| ------------ | ------- | --------------------------------------------------------- |
+| src          | String  | Specifies the URL of the audio file                       |
+| customPlayer | Boolean | show custom player style. Default: false                  |
+| wavePlayer   | Boolean | show Wave player style. Default: false                    |
+| compact      | Boolean | A minimal interface to record just one audio and play it. |
 
 ## CSS Variable
 
@@ -85,6 +96,7 @@ import PlayerWidget from "vuejs2-audio-recorder";
   :backendEndpoint="backendEndpoint"
   :customUpload="customUp"
   :customPlayer="customPlayer"
+  :wavePlayer="wavePlayer"
   :countdown="countdown"
   :attempts="attempts"
   compact

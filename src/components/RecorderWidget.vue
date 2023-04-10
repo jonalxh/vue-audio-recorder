@@ -1,34 +1,35 @@
 <template>
   <div class="recorder-container">
-    <div class="recorder-action">
-      <icon-button
-        class="vue-recorder-action"
-        :name="iconButtonType"
-        :disabled="attemptsLeft == 0"
-        @click="toggleRecording()"
-      />
-      <icon-button
-        v-if="!compact"
-        class="vue-recorder-stop"
-        name="stop"
-        :disabled="attemptsLeft == 0"
-        @click="stopRecording()"
-      />
-    </div>
+    <div :class="{ compact: compact }">
+      <div class="recorder-action">
+        <icon-button
+          class="vue-recorder-action"
+          :name="iconButtonType"
+          :disabled="attemptsLeft == 0"
+          @click="toggleRecording()"
+        />
+        <icon-button
+          v-if="!compact"
+          class="vue-recorder-stop"
+          name="stop"
+          :disabled="attemptsLeft == 0"
+          @click="stopRecording()"
+        />
+      </div>
 
-    <div class="timing">
-      <div class="time-attempt" v-if="attempts && !compact">
-        Attempts: {{ attemptsLeft }}/{{ attempts }}
-      </div>
-      <div class="recording-time">
-        <span v-if="countdown"> {{ countdownTitle }}</span>
-        <span class="recorder-timer">{{ recordedTime }}</span>
-      </div>
-      <div class="time-limit" v-if="time && !compact">
-        Record duration is limited: {{ time }}s
+      <div class="timing">
+        <div class="time-attempt" v-if="attempts && !compact">
+          Attempts: {{ attemptsLeft }}/{{ attempts }}
+        </div>
+        <div class="recording-time">
+          <span v-if="countdown"> {{ countdownTitle }}</span>
+          <span class="recorder-timer">{{ recordedTime }}</span>
+        </div>
+        <div class="time-limit" v-if="time && !compact">
+          Record duration is limited: {{ time }}s
+        </div>
       </div>
     </div>
-
     <div class="vue-records" v-if="!compact && recordList.length > 0">
       <div
         v-for="(record, idx) in recordList"
@@ -64,7 +65,12 @@
       </div>
     </div>
 
-    <player-widget :custom="customPlayer" :record="selected" />
+    <player-widget
+      :custom-player="customPlayer"
+      :wavePlayer="wavePlayer"
+      :record="selected"
+      :compact="compact"
+    />
 
     <div v-if="successMessage || errorMessage" class="recorder-message">
       <span v-if="successMessage" class="color-success">
@@ -109,6 +115,7 @@ export default {
     showUploadButton: { type: Boolean, default: true },
     compact: { type: Boolean, default: false },
     customPlayer: { type: Boolean, default: false },
+    wavePlayer: { type: Boolean, default: false },
     countdown: { type: Boolean, default: false },
     //Function
     selectRecordChanged: { type: Function, default: null },
@@ -252,6 +259,10 @@ export default {
   justify-content: center;
   padding: 0.75em;
   margin: 0.75em;
+
+  .compact {
+    display: flex;
+  }
 }
 
 .recorder-action {
@@ -316,7 +327,6 @@ export default {
 .vue-records__record {
   display: flex;
   width: 100%;
-  max-width: 400px;
   justify-content: space-between;
   padding: 0.5em;
   border-radius: 2em;

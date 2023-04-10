@@ -14,6 +14,14 @@
           <input type="checkbox" id="customPlayer" v-model="customPlayer" />
           <label for="customPlayer">Enable customPlayer</label>
         </div>
+        <div>
+          <input type="checkbox" id="wavePlayer" v-model="wavePlayer" />
+          <label for="wavePlayer">Enable wavePlayer</label>
+        </div>
+        <div>
+          <input type="checkbox" id="compact" v-model="compact" />
+          <label for="compact">Enable Compact Mode</label>
+        </div>
         <div v-if="showRecorder">
           <label for="limit">Time limit in seconds</label>
           <input id="limit" type="number" v-model.number="limit" />
@@ -24,39 +32,28 @@
         </div>
       </div>
 
-      <div v-if="showRecorder" class="row">
-        <div>
-          Default mode:
-          <recorder-widget
-            :time="limit"
-            :successfulUpload="success"
-            :failedUpload="failed"
-            :afterRecording="afterRec"
-            :backendEndpoint="backendEndpoint"
-            :customUpload="customUp"
-            :customPlayer="customPlayer"
-            :countdown="countdown"
-            :attempts="attempts"
-          />
-        </div>
-        <div>
-          Minimal mode:
-          <recorder-widget
-            :time="limit"
-            :successfulUpload="success"
-            :failedUpload="failed"
-            :afterRecording="afterRec"
-            :backendEndpoint="backendEndpoint"
-            :customUpload="customUp"
-            :customPlayer="customPlayer"
-            :countdown="countdown"
-            compact
-          />
-        </div>
+      <div v-if="showRecorder">
+        <recorder-widget
+          :time="limit"
+          :backend-endpoint="backendEndpoint"
+          :custom-upload="customUp"
+          :custom-player="customPlayer"
+          :wavePlayer="wavePlayer"
+          :countdown="countdown"
+          :attempts="attempts"
+          :compact="compact"
+          @afterRecording="afterRec"
+        />
       </div>
     </div>
     <div v-if="!showRecorder">
-      <player-widget v-if="!showRecorder" :src="mp3" :custom="customPlayer" />
+      <player-widget
+        v-if="!showRecorder"
+        :src="mp3"
+        :compact="compact"
+        :custom-player="customPlayer"
+        :wave-player="wavePlayer"
+      />
     </div>
   </div>
 </template>
@@ -77,9 +74,11 @@ export default {
     return {
       attempts: 3,
       countdown: false,
+      compact: false,
       customPlayer: false,
+      wavePlayer: false,
       limit: 20,
-      mp3: "https://download.samplelib.com/mp3/sample-15s.mp3",
+      mp3: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_500KB_MP3.mp3",
       showRecorder: true,
       headers: {
         "X-Custom-Header": "some data",
@@ -159,16 +158,6 @@ body {
     border-radius: 4px;
     border: 1px solid #ccc;
     margin-bottom: 0.75em;
-  }
-}
-
-.row {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  & > div {
-    flex: 1;
   }
 }
 
