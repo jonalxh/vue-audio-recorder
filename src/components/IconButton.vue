@@ -3,7 +3,7 @@
     type="button"
     class="icon-button"
     :class="`icon-${name}`"
-    @click="onClick()"
+    @click="() => onClick()"
   >
     <span v-html="icons[name]" />
   </button>
@@ -11,6 +11,8 @@
 
 <script>
 export default {
+  name: "IconButton",
+
   props: {
     name: { type: String },
   },
@@ -45,7 +47,7 @@ export default {
 
   methods: {
     onClick() {
-      this.$emit("click");
+      this.$emit("onClickIcon");
     },
   },
 };

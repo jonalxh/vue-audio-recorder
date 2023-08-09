@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { convertTimeMMSS } from "./Utils";
 import WavEncoder from "./WavEncoder";
 
@@ -25,7 +24,7 @@ export default class Recorder {
 
     this.wavSamples = [];
 
-    this._duration = 0;
+    this.waveDuration = 0;
   }
 
   start() {
@@ -41,33 +40,31 @@ export default class Recorder {
 
     navigator.mediaDevices
       .getUserMedia(constraints)
-      .then(this._micCaptured.bind(this))
-      .catch(this._micError.bind(this));
+      .then(this.micCaptured.bind(this))
+      .catch(this.micError.bind(this));
 
     this.isPause = false;
     this.isRecording = true;
   }
 
   stop() {
+    if (!!!this.stream || this.context.state == "closed") return;
     this.stream.getTracks().forEach((track) => track.stop());
     this.input.disconnect();
     this.processor.disconnect();
     this.context.close();
-
-    let record = null;
-
     const wavEncoder = new WavEncoder({
       bufferSize: this.bufferSize,
       sampleRate: this.encoderOptions.sampleRate,
       samples: this.wavSamples,
     });
-    record = wavEncoder.finish();
+    const record = wavEncoder.finish();
     this.wavSamples = [];
 
     record.duration = convertTimeMMSS(this.duration);
     this.records.push(record);
 
-    this._duration = 0;
+    this.waveDuration = 0;
     this.duration = 0;
 
     this.isPause = false;
@@ -81,7 +78,7 @@ export default class Recorder {
     this.input.disconnect();
     this.processor.disconnect();
 
-    this._duration = this.duration;
+    this.waveDuration = this.duration;
     this.isPause = true;
 
     this.pauseRecording && this.pauseRecording("pause recording");
@@ -95,9 +92,9 @@ export default class Recorder {
     return this.records.slice(-1).pop();
   }
 
-  _micCaptured(stream) {
+  micCaptured(stream) {
     this.context = new (window.AudioContext || window.webkitAudioContext)();
-    this.duration = this._duration;
+    this.duration = this.waveDuration;
     this.input = this.context.createMediaStreamSource(stream);
     this.processor = this.context.createScriptProcessor(this.bufferSize, 1, 1);
     this.stream = stream;
@@ -113,7 +110,7 @@ export default class Recorder {
       }
 
       this.duration =
-        parseFloat(this._duration) +
+        parseFloat(this.waveDuration) +
         parseFloat(this.context.currentTime.toFixed(2));
       this.volume = Math.sqrt(sum / sample.length).toFixed(2);
     };
@@ -122,7 +119,7 @@ export default class Recorder {
     this.processor.connect(this.context.destination);
   }
 
-  _micError(error) {
+  micError(error) {
     this.micFailed && this.micFailed(error);
   }
 }

@@ -8,6 +8,8 @@
 import { calculateLineHeadPosition } from "@/lib/utils";
 
 export default {
+  name: "LineControl",
+
   props: {
     refId: { type: String },
     eventName: { type: String },

@@ -15,15 +15,19 @@ import IconButton from "./IconButton.vue";
 import LineControl from "./LineControl.vue";
 
 export default {
+  name: "VolumeControl",
+
   data() {
     return {
       volume: 100,
     };
   },
+
   components: {
     IconButton,
     LineControl,
   },
+
   methods: {
     onChangeLinehead(val) {
       this.$emit("change-volume", val);

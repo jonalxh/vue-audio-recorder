@@ -9,7 +9,7 @@
           :class="{
             'vue-player__play--active': isPlaying,
           }"
-          @click="playback"
+          @onClickIcon="() => playback()"
         />
       </div>
 
@@ -21,9 +21,9 @@
           class="vue-player__progress"
           ref-id="progress"
           :percentage="progress"
-          @change-linehead="_onUpdateProgress"
+          @change-linehead="onUpdateProgress"
         />
-        <volume-control @change-volume="_onChangeVolume" />
+        <volume-control @change-volume="onChangeVolume" />
       </div>
     </div>
     <audio :src="audioSource" ref="playerRef" type="audio/mpeg" />
@@ -67,11 +67,11 @@ export default {
     });
 
     this.player.addEventListener("loadeddata", (ev) => {
-      this._resetProgress();
+      this.resetProgress();
       this.duration = convertTimeMMSS(this.player.duration);
     });
 
-    this.player.addEventListener("timeupdate", this._onTimeUpdate);
+    this.player.addEventListener("timeupdate", this.onTimeUpdate);
   },
 
   computed: {
@@ -103,7 +103,7 @@ export default {
       this.isPlaying = !this.isPlaying;
     },
 
-    _resetProgress() {
+    resetProgress() {
       if (this.isPlaying) {
         this.player.pause();
       }
@@ -114,18 +114,18 @@ export default {
       this.isPlaying = false;
     },
 
-    _onTimeUpdate() {
+    onTimeUpdate() {
       this.playedTime = convertTimeMMSS(this.player.currentTime);
       this.progress = (this.player.currentTime / this.player.duration) * 100;
     },
 
-    _onUpdateProgress(pos) {
+    onUpdateProgress(pos) {
       if (pos) {
         this.currentTime = pos * this.duration;
       }
     },
 
-    _onChangeVolume(val) {
+    onChangeVolume(val) {
       if (val) {
         this.player.volume = val;
       }

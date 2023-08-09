@@ -1,7 +1,7 @@
 {
   "name": "vuejs2-audio-recorder",
-  "description": "New version of audio recorder for Vue.js 2 with vite",
-  "version": "2.0.0",
+  "description": "New version of audio recorder for Vue.js 2 and 3 with vite",
+  "version": "3.0.0",
   "author": "Hossein Rahimi",
   "license": "MIT",
   "files": [
@@ -21,21 +21,29 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "core-js": "3.30.0",
-    "wavesurfer.js": "^6.6.3"
+    "core-js": "3.32.0",
+    "vue-demi": "^0.14.5",
+    "wavesurfer.js": "^7.1.1"
   },
   "peerDependencies": {
-    "vue": "2.7.14"
+    "@vue/composition-api": "^1.7.1",
+    "vue": "^2.0.0 || >=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@originjs/vite-plugin-commonjs": "^1.0.1",
-    "eslint": "7.32.0",
-    "eslint-plugin-vue": "8.7.1",
-    "sass": "^1.60.0",
-    "vite": "^2.7.2",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "eslint": "8.46.0",
+    "eslint-plugin-vue": "9.16.1",
+    "sass": "^1.64.2",
+    "vite": "^4.4.9",
     "vite-plugin-env-compatible": "^1.1.1",
-    "vite-plugin-lib-inject-css": "^1.1.0",
-    "vite-plugin-vue2": "^1.9.0"
+    "vite-plugin-lib-inject-css": "^1.2.0",
+    "vue": "^3.3.4"
   },
   "repository": {
     "type": "git",

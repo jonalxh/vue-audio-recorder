@@ -82,7 +82,7 @@ export default {
 <style lang="scss">
 .disabled,
 *:disabled,
-div[disabled] {
+div[disabled="true"] {
   opacity: 0.5;
   pointer-events: none;
   cursor: not-allowed;

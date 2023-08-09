@@ -6,14 +6,14 @@
           class="vue-recorder-action"
           :name="iconButtonType"
           :disabled="attemptsLeft == 0"
-          @click="toggleRecording()"
+          @onClickIcon="() => toggleRecording()"
         />
         <icon-button
           v-if="!compact"
           class="vue-recorder-stop"
           name="stop"
-          :disabled="attemptsLeft == 0"
-          @click="stopRecording()"
+          :disabled="attemptsLeft == 0 || !recording"
+          @onClickIcon="() => stopRecording()"
         />
       </div>
 
@@ -36,7 +36,7 @@
         :key="record.id"
         class="vue-records__record"
         :class="{ 'vue-records__record--selected': record.id === selected.id }"
-        @click="choiceRecord(record)"
+        @click="() => choiceRecord(record)"
       >
         <span>Record {{ idx + 1 }}</span>
         <div class="list-actions">
@@ -44,7 +44,7 @@
             id="download"
             v-if="record.id === selected.id && showDownloadButton"
             name="download"
-            @click="download"
+            @onClickIcon="() => download()"
           />
 
           <icon-button
@@ -52,13 +52,13 @@
             v-if="record.id === selected.id && showUploadButton"
             class="submit-button"
             name="upload"
-            @click="sendData"
+            @onClickIcon="() => sendData()"
           />
 
           <icon-button
             v-if="record.id === selected.id"
             name="remove"
-            @click="removeRecord(idx)"
+            @onClickIcon="() => removeRecord(idx)"
           />
         </div>
         <div class="vue__text">{{ record.duration }}</div>
@@ -93,6 +93,7 @@ import PlayerWidget from "./PlayerWidget.vue";
 const ERROR_MESSAGE =
   "Failed to use microphone. Please refresh and try again and permit the use of a microphone.";
 const SUCCESS_MESSAGE = "Successfully recorded message!";
+const ERROR_SUBMITTING_MESSAGE = "Failed to save recording! Please try again";
 
 export default {
   name: "RecorderWidget",
@@ -159,7 +160,11 @@ export default {
     "recorder.duration": {
       deep: true,
       handler() {
-        if (this.time && this.recorder?.duration >= this.time) {
+        if (
+          this.time &&
+          this.recorder?.duration >= this.time * 1000 &&
+          this.recording
+        ) {
           this.toggleRecording();
         }
       },
@@ -174,15 +179,15 @@ export default {
 
   methods: {
     toggleRecording() {
-      this.recording = !this.recording;
       if (this.recording) {
-        this.initRecorder();
-      } else {
         this.stopRecording();
+      } else {
+        this.initRecorder();
       }
     },
 
     initRecorder() {
+      this.recording = true;
       this.recorder = new Recorder({
         micFailed: this.micFailed,
         bitRate: this.bitRate,
@@ -225,7 +230,6 @@ export default {
 
     removeRecord(idx) {
       this.recordList.splice(idx, 1);
-      this.$set(this.selected, "url", null);
       this.$emit("removeRecord", idx);
     },
 

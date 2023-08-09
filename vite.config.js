@@ -1,11 +1,14 @@
 import path from "path";
 import { defineConfig } from "vite";
-import { createVuePlugin } from "vite-plugin-vue2";
+import createVuePlugin from "@vitejs/plugin-vue";
 import envCompatible from "vite-plugin-env-compatible";
 import { viteCommonjs } from "@originjs/vite-plugin-commonjs";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
 
 export default defineConfig({
+  optimizeDeps: {
+    exclude: ["vue-demi"],
+  },
   resolve: {
     alias: [
       {

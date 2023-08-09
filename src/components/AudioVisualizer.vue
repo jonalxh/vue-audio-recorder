@@ -1,25 +1,17 @@
 <template>
   <div class="wave-container">
     <div id="waveform" ref="waveform" />
-    <div v-if="isReady" class="wave-controls">
-      <icon-button
-        v-show="!compact"
-        name="backward"
-        @click="wavesurfer.skipBackward()"
-      />
+    <div class="wave-controls">
       <icon-button
         :name="playing ? 'pause' : 'play'"
-        @click="wavesurfer.playPause()"
+        :disabled="!isReady"
+        @onClickIcon="() => wavesurfer.playPause()"
       />
       <icon-button
         v-show="!compact"
-        name="forward"
-        @click="wavesurfer.skipForward()"
-      />
-      <icon-button
-        v-show="!compact"
-        :name="isMute ? 'volumeMute' : 'volume'"
-        @click="wavesurfer.toggleMute()"
+        :name="muted ? 'volumeMute' : 'volume'"
+        :disabled="!isReady"
+        @onClickIcon="() => setMuted()"
       />
       <div v-show="!compact" class="vue-player__time">
         {{ currentTime }} / {{ duration }}
@@ -46,12 +38,13 @@ export default {
   data() {
     return {
       wavesurfer: null,
+      muted: false,
     };
   },
 
   computed: {
     isReady() {
-      return this.wavesurfer;
+      return this.wavesurfer != null;
     },
 
     duration() {
@@ -66,13 +59,6 @@ export default {
         return convertTimeMMSS(this.wavesurfer.getCurrentTime());
       }
       return convertTimeMMSS(0);
-    },
-
-    isMute() {
-      if (this.isReady) {
-        return this.wavesurfer.getMute();
-      }
-      return false;
     },
 
     playing() {
@@ -105,13 +91,19 @@ export default {
       cursorWidth: 1,
       barWidth: 2,
       barHeight: 1,
-      barGap: null,
+      barGap: 1,
       height: 32,
       normalize: true,
       hideScrollbar: true,
-      responsive: true,
       fillParent: true,
     });
+  },
+
+  methods: {
+    setMuted() {
+      this.muted = !this.muted;
+      this.wavesurfer.setMuted(this.muted);
+    },
   },
 };
 </script>
