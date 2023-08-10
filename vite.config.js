@@ -35,7 +35,7 @@ export default defineConfig({
       entry: path.resolve(__dirname, "src/index.js"),
       name: "vuejs2-audio-recorder",
       fileName: "vuejs2-audio-recorder",
-      formats: ["es", "umd"],
+      formats: ['es', 'cjs', 'umd'],
     },
     rollupOptions: {
       external: ["vue"],

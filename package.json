@@ -1,17 +1,17 @@
 {
   "name": "vuejs2-audio-recorder",
   "description": "New version of audio recorder for Vue.js 2 and 3 with vite",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "Hossein Rahimi",
   "license": "MIT",
   "files": [
     "dist"
   ],
   "main": "./dist/vuejs2-audio-recorder.umd.js",
-  "module": "./dist/vuejs2-audio-recorder.es.js",
+  "module": "./dist/vuejs2-audio-recorder.mjs",
   "exports": {
     ".": {
-      "import": "./dist/vuejs2-audio-recorder.es.js",
+      "import": "./dist/vuejs2-audio-recorder.mjs",
       "require": "./dist/vuejs2-audio-recorder.umd.js"
     }
   },
