@@ -1,28 +1,35 @@
-# vue-audio-recorder
+# vuejs2-audio-recorder
 
-> New version of audio recorder for Vue.js. It allows to record, play, download and store records on a server. It is based on vue-audio-recorder which is not longer being supported by the original author (grishkovelli).
+> New version of audio recorder for Vue.js with vite.
+> It allows to record, play, download and store records on a server. It is based on vue-audio-recorder which is not longer being supported by the original author (grishkovelli).
 
-#### [Live demo](https://jsfiddle.net/grishkovelli/rb1anxyj/)
+## Default Mode
 
-#### Default mode
-![](https://raw.githubusercontent.com/jonalxh/vue-audio-recorder/master/screenshot.png)
+![](https://raw.githubusercontent.com/rhosseinr/vue-audio-recorder/master/default.png)
 
+## Minimal Mode
 
-#### Minimal mode
-![](https://raw.githubusercontent.com/jonalxh/vue-audio-recorder/master/minimal.png)
+![](https://raw.githubusercontent.com/rhosseinr/vue-audio-recorder/master/minimal.png)
+
+## Wave Mode
+
+![](https://raw.githubusercontent.com/rhosseinr/vue-audio-recorder/master/wave.png)
 
 ### Features
 
 - Beautiful clean UI
-- Download/upload/play record
 - Time limit
 - Records limit
-- A lot of callbacks
 - Individual an audio player
 - MP3/WAV support
 
+### Bug
+
+- Player Error CORS for external URL
+
 ### Tested in (desktop)
 
+- Edge
 - Chrome
 - Firefox
 - Safari
@@ -30,78 +37,79 @@
 ## Installation
 
 ```
-npm i vue2-audio-recorder --save
+npm i vuejs2-audio-recorder --save
 ```
 
 ## AudioRecorder props
 
-| Prop                  | Type     | Description                                                              |
-| --------------------- | -------- | ------------------------------------------------------------------------ |
-| attempts              | Number   | Number of recording attempts                                             |
-| headers               | Object   | HTTP headers                                                             |
-| time                  | Number   | Time limit for the record (minutes)                                      |
-| bit-rate              | Number   | Default: 128 (only for MP3)                                              |
-| sample-rate           | Number   | Default: 44100                                                           |
-| filename              | String   | Download/Upload filename                                                 |
-| format                | String   | WAV/MP3. Default: mp3                                                    |
-| upload-url            | String   | URL for uploading                                                        |
-| show-download-button  | Boolean  | If it is true show a download button. Default: true                      |
-| show-upload-button    | Boolean  | If it is true show an upload button. Default: true                       |
-| before-upload         | Function | Callback fires before uploading                                          |
-| successful-upload     | Function | Callback fires after successful uploading                                |
-| failed-upload         | Function | Callback fires after failure uploading                                   |
-| mic-failed            | Function | Callback fires if your microphone doesn't work                           |
-| before-recording      | Function | Callback fires after click the record button                             |
-| pause-recording       | Function | Callback fires after pause recording                                     |
-| after-recording       | Function | Callback fires after click the stop button or exceeding the time limit   |
-| select-record         | Function | Callback fires after choise a record. Returns the record                 |
-| mode                  | String   | **[New]** A minimal interface to record just one audio and play it. Options: default/minimal. Default: default                                        |
-| countdown             | Boolean  | **[New]** Will show the time remaining instead of current recorded time. Options: true/false. Default: false                                          |
-| countdownTitle        | String   | **[New]** Title over time remaining when countdown is set to true. Default: "Time remaining"                                          |
+| Prop                 | Type     | Description                                                                        |
+| -------------------- | -------- | ---------------------------------------------------------------------------------- |
+| attempts             | Number   | Number of recording attempts                                                       |
+| time                 | Number   | Time limit for the record (minutes)                                                |
+| bit-rate             | Number   | Default: 128 (only for MP3)                                                        |
+| sample-rate          | Number   | Default: 44100                                                                     |
+| filename             | String   | Download/Upload filename                                                           |
+| format               | String   | WAV/MP3. Default: mp3                                                              |
+| show-download-button | Boolean  | If it is true show a download button. Default: true                                |
+| show-upload-button   | Boolean  | If it is true show an upload button. Default: true                                 |
+| micFailed            | Event    | Callback fires after microphone permission denied                                  |
+| beforeRecording      | Event    | Callback fires before click the stop button or exceeding the time limit            |
+| afterRecording       | Event    | Callback fires after click the stop button or exceeding the time limit             |
+| selectRecordChanged  | Event    | Callback fires after choice a record. Returns the record                           |
+| removeRecord         | Event    | Callback fires after remove record                                                 |
+| customUpload         | Function | Callback fires for upload file                                                     |
+| compact              | Boolean  | A minimal interface to record just one audio and play it.                          |
+| countdown            | Boolean  | Will show the time remaining instead of current recorded time. Default: false      |
+| customPlayer         | Boolean  | show custom player style. Default: false                                           |
+| wavePlayer           | Boolean  | show Wave player style. Default: false                                             |
+| countdownTitle       | String   | Title over time remaining when countdown is set to true. Default: "Time Remaining" |
 
 ## AudioPlayer props
-| Prop                  | Type     | Description                                                     |
-| --------------------- | -------- | --------------------------------------------------------------- |
-| src                   | String   | Specifies the URL of the audio file                             |
+
+| Prop         | Type    | Description                                               |
+| ------------ | ------- | --------------------------------------------------------- |
+| src          | String  | Specifies the URL of the audio file                       |
+| customPlayer | Boolean | show custom player style. Default: false                  |
+| wavePlayer   | Boolean | show Wave player style. Default: false                    |
+| compact      | Boolean | A minimal interface to record just one audio and play it. |
+
+## CSS Variable
+
+| variable      | Description   |
+| ------------- | ------------- |
+| primary-color | Primary color |
+| danger-color  | Error color   |
+| border-color  | Border color  |
 
 ## Usage
 
 ```js
-    import AudioRecorder from 'vue-audio-recorder'
-
-    Vue.use(AudioRecorder)
-```
-
-```js
-    methods: {
-      callback (data) {
-        console.debug(data)
-      }
-    }
+import RecorderWidget from "vuejs2-audio-recorder";
+import PlayerWidget from "vuejs2-audio-recorder";
 ```
 
 ```html
-  <audio-recorder
-    upload-url="YOUR_API_URL"
-    :attempts="3"
-    :time="2"
-    :headers="headers"
-    :before-recording="callback"
-    :pause-recording="callback"
-    :after-recording="callback"
-    :select-record="callback"
-    :before-upload="callback"
-    :successful-upload="callback"
-    :failed-upload="callback"/>
+<recorder-widget
+  :attempts="3"
+  :time="2"
+  :afterRecording="afterRec"
+  :backendEndpoint="backendEndpoint"
+  :customUpload="customUp"
+  :customPlayer="customPlayer"
+  :wavePlayer="wavePlayer"
+  :countdown="countdown"
+  :attempts="attempts"
+  compact
+/>
 ```
 
 ```html
-  <audio-player src="/demo/example.mp3"/>
+<player-widget src="/demo/example.mp3" />
 ```
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
@@ -112,15 +120,12 @@ npm run dev
 npm run build
 ```
 
-## TODO
-
-- Clear record list
-- Responsive design
-
 ## PUBLISH TO NPM
+
 ```
 npm publish --access public
 ```
+
 ## Authors
 
 [Gennady Grishkovtsov](https://www.linkedin.com/in/grishkovtsov/) - Developer
@@ -130,3 +135,9 @@ npm publish --access public
 ## Contributors
 
 [Jonathan Arias](https://github.com/jonalxh) - Developer
+
+[Hossein Rahimi](https://github.com/rhosseinr) - Developer
+
+## TNX
+
+[Thomas Derflinger](https://github.com/tderflinger/vue-audio-tapir) - Recorder for Vue3

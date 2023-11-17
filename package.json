@@ -1,62 +1,71 @@
 {
-  "name": "vue2-audio-recorder",
-  "description": "New version of audio recorder for Vue.js 2. It allows to record, play, download and store records on a server. It is based on vue-audio-recorder which is not longer being supported by the original author (grishkovelli).",
-  "version": "1.0.4",
-  "author": "Jonathan Arias <jonalxh@gmail.com>",
+  "name": "vuejs2-audio-recorder",
+  "description": "New version of audio recorder for Vue.js 2 and 3 with vite",
+  "version": "3.0.1",
+  "author": "Hossein Rahimi",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vuejs2-audio-recorder.umd.js",
+  "module": "./dist/vuejs2-audio-recorder.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/vuejs2-audio-recorder.mjs",
+      "require": "./dist/vuejs2-audio-recorder.umd.js"
+    }
+  },
   "scripts": {
-    "dev": "webpack-dev-server --env.NODE_ENV=development --mode development --open --hot --https",
-    "build": "webpack --env.NODE_ENV=production --mode production --progress --hide-modules"
+    "dev": "vite --open",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "lamejs": "^1.2.0"
+    "core-js": "3.32.0",
+    "vue-demi": "^0.14.5",
+    "wavesurfer.js": "^7.1.1"
   },
+  "peerDependencies": {
+    "@vue/composition-api": "^1.7.1",
+    "vue": "^2.0.0 || >=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@originjs/vite-plugin-commonjs": "^1.0.1",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "eslint": "8.46.0",
+    "eslint-plugin-vue": "9.16.1",
+    "sass": "^1.64.2",
+    "vite": "^4.4.9",
+    "vite-plugin-env-compatible": "^1.1.1",
+    "vite-plugin-lib-inject-css": "^1.2.0",
+    "vue": "^3.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhosseinr/vue-audio-recorder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rhosseinr/vue-audio-recorder/issues"
+  },
+  "homepage": "https://github.com/rhosseinr/vue-audio-recorder#readme",
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
   ],
-  "devDependencies": {
-    "axios": "^0.18.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "cross-env": "^5.0.5",
-    "css-loader": "^0.28.7",
-    "file-loader": "^1.1.4",
-    "html-webpack-plugin": "^3.2.0",
-    "node-sass": "^4.5.3",
-    "sass-loader": "^6.0.6",
-    "uglifyjs-webpack-plugin": "^2.0.1",
-    "vue": "^2.5.16",
-    "vue-loader": "^14.2.2",
-    "vue-template-compiler": "^2.4.4",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9",
-    "webpack-merge": "^4.1.3"
-  },
-  "main": "dist/vue-audio-recorder.min.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jonalxh/vue-audio-recorder.git"
-  },
   "keywords": [
     "vue",
+    "vite",
     "audio",
     "record",
     "microphone",
     "recorder",
     "player",
-    "voice",
-    "grabador",
-    "reproductor",
-    "voz",
-    "nota de voz"
-  ],
-  "bugs": {
-    "url": "https://github.com/jonalxh/vue-audio-recorder/issues"
-  },
-  "homepage": "https://github.com/jonalxh/vue-audio-recorder#readme"
+    "voice"
+  ]
 }
